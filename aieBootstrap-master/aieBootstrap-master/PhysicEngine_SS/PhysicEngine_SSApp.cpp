@@ -16,10 +16,10 @@ PhysicEngine_SSApp::~PhysicEngine_SSApp() {
 
 }
 
-void PhysicEngine_SSApp::SetupConinuousDemo(glm::vec2 startPos, float inclination, float speed, glm::vec2 gravity)
+void PhysicEngine_SSApp::SetupConinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity)
 {
 	float t = 0;
-	float timeStep = 0.5f;
+	float timeStep = 0.1f;
 	float radius = 1.0f;
 	int segments = 12;
 	glm::vec4 colour = glm::vec4(1, 1, 0, 1);
@@ -29,9 +29,10 @@ void PhysicEngine_SSApp::SetupConinuousDemo(glm::vec2 startPos, float inclinatio
 		//calculate the x, y position of the projectile at time t
 		float x;
 		float y;
-
-		x = startPos.x + speed * t;
-		y = startPos.y + speed * t + (0.5 * gravity.y * t) * 2;
+		
+		//kinematic formulas fro x and y axis, changing the inclination angle over time
+		x = startPos.x + (t * cos(inclination) * speed);
+		y = startPos.y + (t * sin(inclination) * speed) + 0.5 * gravity * pow(t, 2);
 
 		aie::Gizmos::add2DCircle(glm::vec2(x, y), radius, segments, colour);
 		t += timeStep;
@@ -53,7 +54,7 @@ bool PhysicEngine_SSApp::startup()
 	physicsScene->SetGravity(glm::vec2(0,10));
 	physicsScene->SetTimeStep(0.01f);
 
-	SetupConinuousDemo(glm::vec2(-40, 0), 45, 5, physicsScene->GetGravity());
+	SetupConinuousDemo(glm::vec2(-40, 0), 45, 40, -10);
 
 	/*ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));

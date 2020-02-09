@@ -11,7 +11,7 @@ public:
 	PhysicEngine_SSApp();
 	virtual ~PhysicEngine_SSApp();
 
-	void SetupConinuousDemo(glm::vec2 startPos, float inclination, float speed, glm::vec2 gravity);
+	void SetupConinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity);
 	virtual bool startup();
 	virtual void shutdown();
 
