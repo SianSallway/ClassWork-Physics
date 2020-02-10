@@ -81,7 +81,7 @@ bool PhysicEngine_SSApp::startup()
 	physicsScene->SetTimeStep(0.1f);
 
 	SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
-	SetupNumericalIntergration(vec2(-40, 0), vec2(0, 30), vec2(0, -10), 45);
+	SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	/*//projectile prt 2 
 	float t = 0;
 	float dt = physicsScene->GetTimeStep();
