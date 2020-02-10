@@ -5,8 +5,6 @@
 #include <Gizmos.h>
 #include <iostream>
 #include "Sphere.h"
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 using namespace std;
 using namespace glm;
@@ -43,6 +41,30 @@ void PhysicEngine_SSApp::SetupConinuousDemo(glm::vec2 startPos, float inclinatio
 	}
 }
 
+void PhysicEngine_SSApp::SetupNumericalIntergration(vec2 startPos, vec2 velocity, vec2 force, float inclination)
+{
+	float t = 0;
+	float dt = physicsScene->GetTimeStep();
+	float radius = 1.0f;
+	int segments = 12;
+	vec4 colour = glm::vec4(1, 0, 0, 1);
+	float mass = 1;
+	float x;
+	float y;
+
+	if (t <= dt)
+	{
+		x = startPos.x + (t * cos(inclination) * velocity.x) * dt;
+		y = startPos.y + (t * sin(inclination) * velocity.y) + 0.5 * force.y * pow(t, 2);
+
+		velocity = velocity + (force / mass) * dt;
+		t += dt;
+
+		track = new Sphere(vec2(x, y), velocity, radius, mass, 12, vec4(1, 0, 0, 1));
+		physicsScene->AddActor(track);
+	}
+}
+
 bool PhysicEngine_SSApp::startup() 
 {
 	// increase the 2d line count to maximize the number of objects we can draw
@@ -55,32 +77,31 @@ bool PhysicEngine_SSApp::startup()
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	physicsScene = new PhysicsScene();
-	physicsScene->SetGravity(glm::vec2(0,-10));
+	physicsScene->SetGravity(glm::vec2(0, -10));
 	physicsScene->SetTimeStep(0.1f);
 
 	SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
-
-	//projectile prt 2 
+	SetupNumericalIntergration(vec2(-40, 0), vec2(0, 30), vec2(0, -10), 45);
+	/*//projectile prt 2 
 	float t = 0;
 	float dt = physicsScene->GetTimeStep();
 	float radius = 1.0f;
-	//45 degree angle
-	float inclination = pi<float>() * 4.0f;
+	float inclination = pi<float>() * 4.0f;						//45 degree angle
 	float mass = 1;
-	vec2 speed(0, 0);
+	vec2 speed(0, 30);
 	vec2 startPos(-40, 0);
-	//gravity
-	vec2 force(0, -10);	
+	vec2 force(0, -10);											//gravity
 
 	if (t <= 10)
 	{
 		startPos = startPos + speed * dt;
 		speed = speed + (force / mass) * dt;
-		t = t + dt;
+		t += dt;
 	}
 
-	physicsScene->AddActor(new Sphere(startPos, speed, radius, mass, 12, vec4(1, 0, 0, 1)));
-
+	track = new Sphere(startPos, speed, radius, mass, 12, vec4(1, 0, 0, 1));
+	physicsScene->AddActor(track);*/
+	
 	/*ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
 	ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
@@ -111,6 +132,8 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	
 	physicsScene->Update(deltaTime);
 	physicsScene->UpdateGizmos();
+
+
 
 	/*//projectile prt 2 
 	static float accumulatedTime = 0.0f;

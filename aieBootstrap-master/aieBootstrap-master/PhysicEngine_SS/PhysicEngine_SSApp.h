@@ -5,6 +5,8 @@
 #include "Sphere.h"
 #include <glm\ext.hpp>
 
+using namespace glm;
+
 class PhysicEngine_SSApp : public aie::Application {
 public:
 
@@ -12,6 +14,7 @@ public:
 	virtual ~PhysicEngine_SSApp();
 
 	void SetupConinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity);
+	void SetupNumericalIntergration(vec2 startPos, vec2 velocity, vec2 force, float inclination);
 	virtual bool startup();
 	virtual void shutdown();
 
@@ -25,4 +28,5 @@ protected:
 	PhysicsScene*		physicsScene;
 	Sphere*				ball1;
 	Sphere*				ball2;
+	Sphere*				track;
 };
