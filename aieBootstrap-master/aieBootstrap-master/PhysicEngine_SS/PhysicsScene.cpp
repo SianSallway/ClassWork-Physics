@@ -55,7 +55,7 @@ void PhysicsScene::Update(float deltaTime)
 				if (pRigid->CheckCollision(pOther) == true)
 				{
 					//combined mass of two spheres
-					float comMass = pRigid->GetMass() * dynamic_cast<RigidBody*>(pOther)->GetMass() / pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass() * 2;
+					float comMass = (pRigid->GetMass() * dynamic_cast<RigidBody*>(pOther)->GetMass()) / (pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass()) * 0.5;
 					
 					//relative velocity of two spheres
 					glm::vec2 relVel = pRigid->GetVelocity() - dynamic_cast<RigidBody*>(pOther)->GetVelocity();
@@ -98,6 +98,41 @@ void PhysicsScene::AddActor(PhysicsObject* actor)
 void PhysicsScene::RemoveActor(PhysicsObject* actor)
 {
 	actors.pop_back();
+}
+
+//function pointer for collisions
+typedef bool(*fn)(PhysicsObject*, PhysicsObject*);				 
+
+//function array
+static fn collisionFuncArray[] =
+{
+	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere,
+};
+
+void PhysicsScene::CheckForCollision()
+{
+	int  actorCount = actors.size();
+
+	//check for all collision against all objects except this one
+	for (int outer = 0; outer < actorCount - 1; outer++)
+	{
+		for (int inner = outer + 1; inner < actorCount; inner++)
+		{
+			PhysicsObject* object1 = actors[outer];
+			PhysicsObject* object2 = actors[inner];
+			int shapeID1 = object1->GetShapeType();
+			int shapeID2 = object2->GetShapeType();
+
+			//use function pointers
+			int functionIndex = (shapeID1 * SHAPE_COUNT) + shapeID2;
+			fn collisionFuncPtr = collisionFuncArray[functionIndex];
+			if (collisionFuncPtr != nullptr)
+			{
+				//check if a collision occured
+				collisionFuncPtr(object1, object2);
+			}
+		}
+	}
 }
 
 //calls debug function of each actor

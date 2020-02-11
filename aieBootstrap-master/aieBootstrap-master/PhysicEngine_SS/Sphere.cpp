@@ -11,13 +11,6 @@ Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMas
 	segments = seg;
 }
 
-Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMass, float seg, float inclination, glm::vec4 objectColour) : RigidBody(SPHERE, pos, vel, 0, sphereMass)
-{
-	radius = sphereRadius;
-	colour = objectColour;
-	segments = seg;
-}
-
 void Sphere::MakeGizmo()
 {
 	

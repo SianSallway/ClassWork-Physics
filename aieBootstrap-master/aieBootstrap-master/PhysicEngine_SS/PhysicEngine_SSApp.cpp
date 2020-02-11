@@ -77,32 +77,14 @@ bool PhysicEngine_SSApp::startup()
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	physicsScene = new PhysicsScene();
-	physicsScene->SetGravity(glm::vec2(0, -10));
-	physicsScene->SetTimeStep(0.1f);
+	//for projectile set y to -10
+	physicsScene->SetGravity(glm::vec2(0, 0));
+	physicsScene->SetTimeStep(0.01f);
 
-	SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
-	SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
-	/*//projectile prt 2 
-	float t = 0;
-	float dt = physicsScene->GetTimeStep();
-	float radius = 1.0f;
-	float inclination = pi<float>() * 4.0f;						//45 degree angle
-	float mass = 1;
-	vec2 speed(0, 30);
-	vec2 startPos(-40, 0);
-	vec2 force(0, -10);											//gravity
-
-	if (t <= 10)
-	{
-		startPos = startPos + speed * dt;
-		speed = speed + (force / mass) * dt;
-		t += dt;
-	}
-
-	track = new Sphere(startPos, speed, radius, mass, 12, vec4(1, 0, 0, 1));
-	physicsScene->AddActor(track);*/
+	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
+	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
-	/*ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
+	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
 	ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
 	physicsScene->AddActor(ball1);
@@ -112,7 +94,7 @@ bool PhysicEngine_SSApp::startup()
 	//ball2->ApplyForce(glm::vec2(0, 30));
 	//ball1->ApplyForceToActor(ball2, glm::vec2(2, 0));
 	ball1->ApplyForce(glm::vec2(30,0));
-	ball2->ApplyForce(glm::vec2(-15, 0));*/
+	ball2->ApplyForce(glm::vec2(-15, 0));
 
 	return true;
 }
@@ -128,42 +110,14 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	//aie::Gizmos::clear();
+	aie::Gizmos::clear();
 	
 	physicsScene->Update(deltaTime);
 	physicsScene->UpdateGizmos();
 
 
 
-	/*//projectile prt 2 
-	static float accumulatedTime = 0.0f;
-	accumulatedTime += deltaTime;
 
-	float radius = 1.0f;
-	//45 degree angle
-	float inclination = pi<float>() * 4.0f;
-
-	vec2 speed(0, 0);
-	vec2 startPos(-40, 0);
-
-	while (accumulatedTime >= physicsScene->GetTimeStep())
-	{
-		float t = 0;
-		float dt = physicsScene->GetTimeStep();
-		//gravity
-		vec2 force(0, -10);
-		float mass = 1;
-
-		if (t <= 8)
-		{
-			startPos = startPos + speed * dt;
-			speed = speed + (force / mass) * dt;
-			t = t + dt;
-		}
-		accumulatedTime -= physicsScene->GetTimeStep();
-
-		physicsScene->AddActor(new Sphere(startPos, speed, radius, mass, 12, vec4(1, 0, 0, 1)));
-	}*/
 
 	//float ballMass = ball1->GetMass();
 	//ballMass -= 0.5f;

@@ -11,7 +11,6 @@ class Sphere : public RigidBody
 public:
 
 	Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMass, float seg, glm::vec4 objectColour);
-	Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMass, float seg, float inclination, glm::vec4 objectColour);
 	~Sphere();
 
 	virtual void MakeGizmo();

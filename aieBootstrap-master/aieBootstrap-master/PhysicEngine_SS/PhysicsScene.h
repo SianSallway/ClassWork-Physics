@@ -31,6 +31,14 @@ public:
 	void SetTimeStep(const float ts) { timeStep = ts; };
 	float GetTimeStep() const { return timeStep; };
 
+	//checks for collisions between each shape type
+	void CheckForCollision();
+
+	static bool plane2Plane(PhysicsObject*, PhysicsObject*);
+	static bool plane2Sphere(PhysicsObject*, PhysicsObject*);
+	static bool sphere2Plane(PhysicsObject*, PhysicsObject*);
+	static bool sphere2Sphere(PhysicsObject*, PhysicsObject*);
+
 	//calls debug function of each actor
 	void DebugScene();
 
@@ -38,5 +46,6 @@ protected:
 
 	glm::vec2 gravity;
 	float timeStep;
-	vector<PhysicsObject*> actors;				//stores all physical objects in scene 
+	vector<PhysicsObject*> actors;									//stores all physical objects in scene 
+
 };

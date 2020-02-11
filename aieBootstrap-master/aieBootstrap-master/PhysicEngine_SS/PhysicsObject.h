@@ -8,7 +8,8 @@ enum ShapeType
 {
 	PLANE = 0,
 	SPHERE,
-	BOX
+	BOX,
+	SHAPE_COUNT
 };
 
 //pure abstract base class
@@ -26,8 +27,10 @@ public:
 	virtual void Debug() = 0;
 	virtual void MakeGizmo() = 0;
 	virtual void ResetPosition() {};
+	virtual ShapeType GetShapeType() { return shapeID; };
 
 protected:
 
 	ShapeType shapeID;
+	//const int ShapeCount;
 };
