@@ -27,7 +27,7 @@ public:
 	virtual void Debug() = 0;
 	virtual void MakeGizmo() = 0;
 	virtual void ResetPosition() {};
-	virtual ShapeType GetShapeType() { return shapeID; };
+	ShapeType GetShapeType() { return shapeID; };
 
 protected:
 

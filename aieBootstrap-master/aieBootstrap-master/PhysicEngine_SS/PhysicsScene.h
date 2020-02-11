@@ -34,10 +34,10 @@ public:
 	//checks for collisions between each shape type
 	void CheckForCollision();
 
-	static bool plane2Plane(PhysicsObject*, PhysicsObject*);
-	static bool plane2Sphere(PhysicsObject*, PhysicsObject*);
-	static bool sphere2Plane(PhysicsObject*, PhysicsObject*);
-	static bool sphere2Sphere(PhysicsObject*, PhysicsObject*);
+	static bool plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2);
+	static bool plane2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);
+	static bool sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2);
+	static bool sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);
 
 	//calls debug function of each actor
 	void DebugScene();

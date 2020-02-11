@@ -9,6 +9,7 @@ RigidBody::RigidBody(ShapeType id, glm::vec2 pos, glm::vec2 vel, float objectRot
 	velocity = vel;
 	rotation = objectRotation;
 	mass = objectMass;
+	this->shapeID = id;
 }
 
 RigidBody::~RigidBody()

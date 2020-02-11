@@ -22,8 +22,10 @@ public:
 
 	glm::vec2 GetPosition() { return position; }
 	glm::vec2 GetVelocity() { return velocity; }
+	void SetVelocity(glm::vec2 newVel) { velocity = newVel; }
 	float GetRotation() { return rotation; }
 	float GetMass() { return mass; }
+	//ShapeType GetShapeType() { return shapeID; };
 
 protected:
 

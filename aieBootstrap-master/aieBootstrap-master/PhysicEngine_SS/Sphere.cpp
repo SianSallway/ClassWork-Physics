@@ -12,8 +12,7 @@ Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMas
 }
 
 void Sphere::MakeGizmo()
-{
-	
+{	
 	aie::Gizmos::add2DCircle(position, radius, segments, colour);
 }
 

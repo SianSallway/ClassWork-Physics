@@ -10,7 +10,7 @@ class Plane : public PhysicsObject
 public:
 
 	Plane();
-	Plane(vec2 planeNormal, float distance);
+	Plane(vec2 planeNormal, float distance, vec4 planeColour);
 	~Plane() {};
 
 	virtual void FixedUpdate(vec2 gravity, float timeStep);
@@ -25,4 +25,5 @@ protected:
 
 	vec2 normal;
 	float distanceToOrigin;
+	vec4 colour;
 };

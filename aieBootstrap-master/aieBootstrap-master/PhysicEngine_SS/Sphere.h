@@ -5,24 +5,25 @@
 #include "RigidBody.h"
 
 using namespace std;
+using namespace glm;
 
 class Sphere : public RigidBody
 {
 public:
 
-	Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMass, float seg, glm::vec4 objectColour);
-	~Sphere();
+	Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMass, float seg, vec4 objectColour);
+	~Sphere() {}
 
 	virtual void MakeGizmo();
 	virtual bool CheckCollision(PhysicsObject* pOther);
 
 	float GetRadius() { return radius; }
 	float GetSegments() { return segments; }
-	glm::vec4 GetColour() { return colour; }
+	vec4 GetColour() { return colour; }
 
 protected:
 
 	float radius;
-	glm::vec4 colour;
+	vec4 colour;
 	float segments;
 };

@@ -86,15 +86,19 @@ bool PhysicEngine_SSApp::startup()
 	
 	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
-	ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
+	//ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
+	plane = new Plane(vec2(0,0), -20.0f, vec4(1, 1, 1, 1));
+
 	physicsScene->AddActor(ball1);
-	physicsScene->AddActor(ball2);
+	//physicsScene->AddActor(ball2);
+	//physicsScene->AddActor(plane);
 
 	//ball1->ApplyForce(glm::vec2(25, 5));
 	//ball2->ApplyForce(glm::vec2(0, 30));
 	//ball1->ApplyForceToActor(ball2, glm::vec2(2, 0));
 	ball1->ApplyForce(glm::vec2(30,0));
-	ball2->ApplyForce(glm::vec2(-15, 0));
+	//ball2->ApplyForce(glm::vec2(-15, 0));
+	
 
 	return true;
 }
@@ -114,10 +118,6 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	
 	physicsScene->Update(deltaTime);
 	physicsScene->UpdateGizmos();
-
-
-
-
 
 	//float ballMass = ball1->GetMass();
 	//ballMass -= 0.5f;

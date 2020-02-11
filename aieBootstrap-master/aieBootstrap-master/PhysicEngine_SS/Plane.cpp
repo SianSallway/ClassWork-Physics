@@ -1,10 +1,11 @@
 #include "Plane.h"
 #include <Gizmos.h>
 
-Plane::Plane(vec2 planeNormal, float distance)
+Plane::Plane(vec2 planeNormal, float distance, vec4 planeColour)
 {
 	normal = planeNormal;
 	distanceToOrigin = distance;
+	colour = planeColour;
 }
 
 Plane::Plane() : PhysicsObject(ShapeType::PLANE)
@@ -30,7 +31,7 @@ void Plane::MakeGizmo()
 
 	//rotate normal throught 90 degrees around z
 	vec2 parallel(normal.y, -normal.x);
-	vec4 colour(1, 1, 1, 1);
+	//vec4 colour(1, 1, 1, 1);
 	vec2 start = centerPoint + (parallel * lineLength);
 	vec2 end = centerPoint - (parallel * lineLength);
 	

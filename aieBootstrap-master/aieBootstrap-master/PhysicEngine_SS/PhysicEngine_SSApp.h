@@ -3,6 +3,7 @@
 #include "Renderer2D.h"
 #include "PhysicsScene.h"
 #include "Sphere.h"
+#include "Plane.h"
 #include <glm\ext.hpp>
 
 using namespace glm;
@@ -29,4 +30,5 @@ protected:
 	Sphere*				ball1;
 	Sphere*				ball2;
 	Sphere*				track;
+	Plane*				plane;
 };
