@@ -76,7 +76,6 @@ void PhysicsScene::Update(float deltaTime)
 					//pRigid->SetVelocity(vec2(0, 0));
 					//dynamic_cast<RigidBody*>(pOther)->SetVelocity(vec2(0, 0));
 					
-
 					CheckForCollision();
 
 					dirty.push_back(pRigid);

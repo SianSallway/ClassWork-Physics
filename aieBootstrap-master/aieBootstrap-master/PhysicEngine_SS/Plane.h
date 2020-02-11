@@ -1,15 +1,16 @@
 #pragma once
-#include "PhysicsObject.h"
+//#include "PhysicsObject.h"
+#include "RigidBody.h"
 #include <iostream>
 
 using namespace std;
 using namespace glm;
 
-class Plane : public PhysicsObject
+class Plane : public RigidBody
 {
 public:
 
-	Plane();
+	//Plane() {};
 	Plane(vec2 planeNormal, float distance, vec4 planeColour);
 	~Plane() {};
 
@@ -17,6 +18,7 @@ public:
 	virtual void Debug();
 	virtual void MakeGizmo();
 	virtual void ResetPosition();
+	virtual bool CheckCollision(PhysicsObject* pOther);
 
 	vec2 GetNormal() { return normal; }
 	float GetDistance() { return distanceToOrigin; }
