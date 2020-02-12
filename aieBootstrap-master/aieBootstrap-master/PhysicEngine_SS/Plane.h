@@ -20,6 +20,8 @@ public:
 	virtual void ResetPosition();
 	virtual bool CheckCollision(PhysicsObject* pOther);
 
+	void ResolveCollision(RigidBody* actor2);
+
 	vec2 GetNormal() { return normal; }
 	float GetDistance() { return distanceToOrigin; }
 

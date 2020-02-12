@@ -84,20 +84,28 @@ bool PhysicEngine_SSApp::startup()
 	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
 	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
-	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
+	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 1.7, 12, glm::vec4(1, 0, 0, 1));
 	//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
-	//ball2 = new Sphere(glm::vec2(10, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
-	plane = new Plane(vec2(20,20), -20.0f, vec4(1, 1, 1, 1));
+	ball2 = new Sphere(glm::vec2(30, 0), glm::vec2(0, 0), 4.0f, 1.6, 12, glm::vec4(0, 1, 0, 1));
+	ball3 = new Sphere(glm::vec2(40, 20), glm::vec2(0, 0), 4.0f, 1.6, 12, glm::vec4(0, 1, 0, 1));
+	ball4 = new Sphere(glm::vec2(20, 500), glm::vec2(0, 0), 4.0f, 1.6, 12, glm::vec4(0, 1, 0, 1));
+	plane1 = new Plane(vec2(1,2), 5, vec4(1, 1, 1, 1));
+	//plane2 = new Plane(vec2(3,5), 5, vec4(1, 1, 1, 1));
 
 	physicsScene->AddActor(ball1);
-	//physicsScene->AddActor(ball2);
-	physicsScene->AddActor(plane);
+	physicsScene->AddActor(ball2);
+	physicsScene->AddActor(ball3);
+	physicsScene->AddActor(ball4);
+	physicsScene->AddActor(plane1);
+	//physicsScene->AddActor(plane2);
 
 	//ball1->ApplyForce(glm::vec2(25, 5));
 	//ball2->ApplyForce(glm::vec2(0, 30));
 	//ball1->ApplyForceToActor(ball2, glm::vec2(2, 0));
-	ball1->ApplyForce(glm::vec2(30,0));
-	//ball2->ApplyForce(glm::vec2(-15, 0));
+	ball1->ApplyForce(glm::vec2(50, 0));
+	ball2->ApplyForce(glm::vec2(-30, 0));
+	ball3->ApplyForce(glm::vec2(-40, 0));
+	ball4->ApplyForce(glm::vec2(-80, 0));
 	
 
 	return true;
@@ -117,7 +125,7 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	aie::Gizmos::clear();
 	
 	physicsScene->Update(deltaTime);
-	//FIX: PLANE NOT DRAWING 
+	//PLANE NOT DRAWING 
 	physicsScene->UpdateGizmos();
 
 	//float ballMass = ball1->GetMass();
@@ -126,11 +134,6 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	/*if (ball1->GetPosition().y > 0)
 	{
 		aie::Gizmos::add2DCircle(glm::vec2(ball2->GetPosition().x, ball2->GetPosition().y - 2), ball2->GetRadius(), ball2->GetSegments(), ball2->GetColour());
-	}*/
-
-	/*if (input->wasKeyPressed(aie::INPUT_KEY_ENTER))
-	{
-		ball1->ApplyForceToActor(ball2, glm::vec2(2, 0));
 	}*/
 
 	// exit the application

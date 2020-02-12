@@ -7,12 +7,12 @@ using namespace std;
 
 Plane::Plane(vec2 planeNormal, float distance, vec4 planeColour) : RigidBody(ShapeType::PLANE, normal, vec2(0,0), 0, 0)
 {
-	normal = planeNormal;
+	normal = normalize(planeNormal);
 	distanceToOrigin = distance;
 	colour = planeColour;
 }
 
-/*Plane::Plane() //: PhysicsObject(ShapeType::PLANE)
+/*Plane::Plane() : PhysicsObject(ShapeType::PLANE)
 {
 	normal = vec2(0, 1);
 	distanceToOrigin = 0;
@@ -28,6 +28,14 @@ void Plane::ResetPosition()
 	distanceToOrigin = this->GetDistance();
 }
 
+void Plane::ResolveCollision(RigidBody* actor2)
+{
+	float elasticity = 1;
+	vec2 newVelocity = actor2->GetVelocity() - dot((1 + elasticity) * actor2->GetVelocity(), normal) * normal;
+
+	actor2->SetVelocity(newVelocity);
+}
+
 bool Plane::CheckCollision(PhysicsObject* pOther)
 {
 	Sphere* otherSphere = dynamic_cast<Sphere*>(pOther);
@@ -35,7 +43,7 @@ bool Plane::CheckCollision(PhysicsObject* pOther)
 	if (otherSphere != NULL)
 	{
 		vec2 collisionNormal = GetNormal();
-		float sphereToPlane = dot(otherSphere->GetPosition(), GetNormal() - GetDistance());
+		float sphereToPlane = dot(otherSphere->GetPosition(), GetNormal())- GetDistance();
 
 		//if behind plane flip normal
 		if (sphereToPlane < 0)
@@ -64,12 +72,13 @@ void Plane::MakeGizmo()
 
 	//rotate normal throught 90 degrees around z
 	vec2 parallel(normal.y, -normal.x);
-	//vec4 colour(1, 1, 1, 1);
+	vec4 testcolour(1,1,1,1);
 	vec2 start = centerPoint + (parallel * lineLength);
 	vec2 end = centerPoint - (parallel * lineLength);
 	
 	//draw gizmo
-	aie::Gizmos::add2DLine(start, end, colour, vec4(0, 1, 0, 1));
+	//std::cout << start.x << " " << start.y << " " << end.x << " " << end.y << std::endl;
+	aie::Gizmos::add2DLine(start, end, colour);
 }
 
 void Plane::Debug()

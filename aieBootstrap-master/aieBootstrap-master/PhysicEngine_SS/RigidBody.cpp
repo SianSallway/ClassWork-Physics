@@ -48,7 +48,7 @@ void RigidBody::ResolveCollision(RigidBody* actor2)
 
 	vec2 force = normal * j;
 
-	ApplyForceToActor(actor2, -force);
+	ApplyForceToActor(actor2, force);
 }
 
 void RigidBody::Debug()
