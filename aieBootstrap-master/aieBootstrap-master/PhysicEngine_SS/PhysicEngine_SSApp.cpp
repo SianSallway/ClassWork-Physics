@@ -117,6 +117,7 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	aie::Gizmos::clear();
 	
 	physicsScene->Update(deltaTime);
+	//FIX: PLANE NOT DRAWING 
 	physicsScene->UpdateGizmos();
 
 	//float ballMass = ball1->GetMass();
