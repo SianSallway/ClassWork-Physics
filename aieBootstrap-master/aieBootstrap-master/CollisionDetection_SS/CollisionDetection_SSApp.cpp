@@ -87,15 +87,15 @@ bool CollisionDetection_SSApp::startup() {
 	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
 	ball2 = new Sphere(glm::vec2(30, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
-	ball3 = new Sphere(glm::vec2(40, 20), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
-	ball4 = new Sphere(glm::vec2(20, 50), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
+	//ball3 = new Sphere(glm::vec2(40, 20), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
+	//ball4 = new Sphere(glm::vec2(20, 50), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
 	plane1 = new Plane(vec2(1, 2), 5, vec4(1, 1, 1, 1));
 	//plane2 = new Plane(vec2(3,5), 5, vec4(1, 1, 1, 1));
 
 	physicsScene->AddActor(ball1);
 	physicsScene->AddActor(ball2);
-	physicsScene->AddActor(ball3);
-	physicsScene->AddActor(ball4);
+	//physicsScene->AddActor(ball3);
+	//physicsScene->AddActor(ball4);
 	physicsScene->AddActor(plane1);
 	//physicsScene->AddActor(plane2);
 
@@ -104,8 +104,8 @@ bool CollisionDetection_SSApp::startup() {
 	//ball1->ApplyForceToActor(ball2, glm::vec2(2, 0));
 	ball1->ApplyForce(glm::vec2(80, 0));
 	ball2->ApplyForce(glm::vec2(-80, 0));
-	ball3->ApplyForce(glm::vec2(-80, 0));
-	ball4->ApplyForce(glm::vec2(-80, -10));
+	//ball3->ApplyForce(glm::vec2(-80, 0));
+	//ball4->ApplyForce(glm::vec2(-80, -10));
 
 	return true;
 }
