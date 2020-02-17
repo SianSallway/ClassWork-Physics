@@ -38,73 +38,7 @@ void PhysicsScene::Update(float deltaTime)
 
 		accumulatedTime -= timeStep;
 
-		//check for collisions 
-		for (auto pActor : actors)
-		{
-			for (auto pOther : actors)
-			{
-				if (pActor == pOther)
-				{
-					continue;
-				}
-
-				if (find(dirty.begin(), dirty.end(), pActor) != dirty.end() && find(dirty.begin(), dirty.end(), pOther) != dirty.end())
-				{
-					continue;
-				}
-
-				cout << "current actor is: " << pActor->GetShapeType() << endl;
-				
-				if (pActor->GetShapeType() == 0)
-				{
-					Plane* pPlane = dynamic_cast<Plane*>(pActor);
-
-					if (pPlane->CheckCollision(pOther))
-					{
-						CheckForCollision();
-					}
-				}
-				else
-				{
-					RigidBody* pRigid = dynamic_cast<RigidBody*>(pActor);
-
-					if (pRigid->CheckCollision(pOther) == true)
-					{
-						/*//combined mass of two spheres
-						float comMass = (pRigid->GetMass() * dynamic_cast<RigidBody*>(pOther)->GetMass()) / (pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass()) * 0.5;
-
-						//relative velocity of two spheres
-						glm::vec2 relVel = pRigid->GetVelocity() - dynamic_cast<RigidBody*>(pOther)->GetVelocity();
-
-						glm::vec2 impact = glm::normalize(dynamic_cast<RigidBody*>(pOther)->GetPosition() - pRigid->GetPosition());
-
-						float transmittedForce = glm::dot(relVel, impact);
-
-						//addforcetoactor(pOther, relative velocity * combinedmass
-						pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), relVel * transmittedForce * comMass);
-
-						//one solution
-						//pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), pRigid->GetVelocity() * pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass());*/
-
-						//pRigid->SetVelocity(vec2(0, 0));
-						//dynamic_cast<RigidBody*>(pOther)->SetVelocity(vec2(0, 0));
-
-						CheckForCollision();
-
-						dirty.push_back(pRigid);
-						dirty.push_back(pOther);
-					}
-				}
-
-
-				/*else if (pRigid == nullptr)
-				{
-					PhysicsObject* currActor = dynamic_cast<PhysicsObject*>(pRigid);
-					CheckForCollision();
-				}*/
-			}
-		}
-		dirty.clear();
+		CheckForCollision();
 	}
 }
 
@@ -153,7 +87,7 @@ void PhysicsScene::CheckForCollision()
 			int shapeID2 = object2->GetShapeType();
 
 			//use function pointers
-			int functionIndex = (shapeID1 * SHAPE_COUNT) + shapeID2 -1;
+			int functionIndex = (shapeID1 * SHAPE_COUNT) + shapeID2;
 			fn collisionFuncPtr = collisionFuncArray[functionIndex];
 			
 			if (collisionFuncPtr != nullptr)
@@ -201,7 +135,7 @@ bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 	if (sphere != nullptr && plane != nullptr)
 	{
 		vec2 collisionNormal = plane->GetNormal();
-		float sphereToPlane = dot(sphere->GetPosition(), plane->GetNormal() )- plane->GetDistance();
+		float sphereToPlane = dot(sphere->GetPosition(), plane->GetNormal())- plane->GetDistance();
 
 		//if behind plane flip normal
 		if (sphereToPlane < 0)
@@ -212,11 +146,13 @@ bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 
 		float intersection = sphere->GetRadius() - sphereToPlane;
 
-		if (intersection > 0)
+
+		if (intersection >= 0)
 		{
 			//set sphere vel to 0
 			//sphere->SetVelocity(vec2(0, 0));
 			plane->ResolveCollision(sphere);
+			sphere->SetPosition(sphere->GetPosition() + (collisionNormal * intersection));
 
 			return true;
 		}
@@ -227,7 +163,7 @@ bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 
 bool PhysicsScene::plane2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 {
-	return false;
+	return sphere2Plane(obj2, obj1);
 }
 
 bool PhysicsScene::plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2)

@@ -31,6 +31,7 @@ protected:
 	Sphere*				ball2;
 	Sphere*				ball3;
 	Sphere*				ball4;
+	Sphere* newSphere;
 	Sphere*				track;
 	Plane*				plane1;
 	Plane*				plane2;

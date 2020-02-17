@@ -38,52 +38,7 @@ void PhysicsScene::Update(float deltaTime)
 
 		accumulatedTime -= timeStep;
 
-		//check for collisions 
-		for (auto pActor : actors)
-		{
-			for (auto pOther : actors)
-			{
-				if (pActor == pOther)
-				{
-					continue;
-				}
-
-				if (find(dirty.begin(), dirty.end(), pActor) != dirty.end() && find(dirty.begin(), dirty.end(), pOther) != dirty.end())
-				{
-					continue;
-				}
-
-				RigidBody* pRigid = dynamic_cast<RigidBody*>(pActor);
-
-				if (pRigid->CheckCollision(pOther) == true)
-				{
-					/*//combined mass of two spheres
-					float comMass = (pRigid->GetMass() * dynamic_cast<RigidBody*>(pOther)->GetMass()) / (pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass()) * 0.5;
-
-					//relative velocity of two spheres
-					glm::vec2 relVel = pRigid->GetVelocity() - dynamic_cast<RigidBody*>(pOther)->GetVelocity();
-
-					glm::vec2 impact = glm::normalize(dynamic_cast<RigidBody*>(pOther)->GetPosition() - pRigid->GetPosition());
-
-					float transmittedForce = glm::dot(relVel, impact);
-
-					//addforcetoactor(pOther, relative velocity * combinedmass
-					pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), relVel * transmittedForce * comMass);
-
-					//one solution
-					//pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), pRigid->GetVelocity() * pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass());*/
-
-					//pRigid->SetVelocity(vec2(0, 0));
-					//dynamic_cast<RigidBody*>(pOther)->SetVelocity(vec2(0, 0));
-
-					CheckForCollision();
-
-					dirty.push_back(pRigid);
-					dirty.push_back(pOther);
-				}
-			}
-		}
-		dirty.clear();
+		CheckForCollision();
 	}
 }
 

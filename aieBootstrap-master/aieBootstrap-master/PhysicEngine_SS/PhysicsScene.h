@@ -41,11 +41,12 @@ public:
 
 	//calls debug function of each actor
 	void DebugScene();
+	vector<PhysicsObject*> actors;									//stores all physical objects in scene 
 
 protected:
 
 	glm::vec2 gravity;
 	float timeStep;
-	vector<PhysicsObject*> actors;									//stores all physical objects in scene 
+
 
 };

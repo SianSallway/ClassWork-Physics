@@ -1,6 +1,7 @@
 #include "Sphere.h"
 #include <iostream>
 #include <Gizmos.h>
+#include "Plane.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ bool Sphere::CheckCollision(PhysicsObject* pOther)
 	{
 		float distance = glm::distance(position, otherSphere->position);
 
-		float r = radius + otherSphere->radius;
+		float r = radius * otherSphere->radius;
 		
 		if (distance < r)
 		{

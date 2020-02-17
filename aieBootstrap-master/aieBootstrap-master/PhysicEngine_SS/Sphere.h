@@ -20,6 +20,7 @@ public:
 	float GetRadius() { return radius; }
 	float GetSegments() { return segments; }
 	vec4 GetColour() { return colour; }
+	void SetPosition(vec2 newPos) { position = newPos; }
 
 protected:
 

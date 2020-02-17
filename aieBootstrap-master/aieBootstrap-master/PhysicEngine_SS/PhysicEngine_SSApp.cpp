@@ -78,35 +78,35 @@ bool PhysicEngine_SSApp::startup()
 
 	physicsScene = new PhysicsScene();
 	//for projectile set y to -10
-	physicsScene->SetGravity(glm::vec2(0, 0));
+	physicsScene->SetGravity(glm::vec2(0, -20));
 	physicsScene->SetTimeStep(0.01f);
 
 	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
 	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
 	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
-	//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
-	ball2 = new Sphere(glm::vec2(30, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
-	ball3 = new Sphere(glm::vec2(40, 20), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
-	ball4 = new Sphere(glm::vec2(20, 50), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
-	plane1 = new Plane(vec2(1,2), 5, vec4(1, 1, 1, 1));
-	//plane2 = new Plane(vec2(3,6), 10, vec4(1, 0, 0, 1));
+	//For different tutorial ->//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
+	ball2 = new Sphere(glm::vec2(30, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
+	ball3 = new Sphere(glm::vec2(40, 20), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
+	ball4 = new Sphere(glm::vec2(20, 50), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
+	plane1 = new Plane(vec2(3,5), -45, vec4(1, 1, 1, 1));
+	plane2 = new Plane(vec2(3,-3), 45, vec4(1, 1, 1, 1));
 
 	physicsScene->AddActor(ball1);
 	physicsScene->AddActor(ball2);
 	physicsScene->AddActor(ball3);
 	physicsScene->AddActor(ball4);
 	physicsScene->AddActor(plane1);
-	//physicsScene->AddActor(plane2);
+	physicsScene->AddActor(plane2);
 
 	//ball1->ApplyForce(glm::vec2(25, 5));
 	//ball2->ApplyForce(glm::vec2(0, 30));
 	//ball1->ApplyForceToActor(ball2, glm::vec2(2, 0));
-	ball1->ApplyForce(glm::vec2(80, 0));
-	ball2->ApplyForce(glm::vec2(-80, 0));
-	ball3->ApplyForce(glm::vec2(-80, 0));
-	ball4->ApplyForce(glm::vec2(-80, -10));
 	
+	//ball1->ApplyForce(glm::vec2(80, 0));
+	//ball2->ApplyForce(glm::vec2(-80, 0));
+	//ball3->ApplyForce(glm::vec2(-80, 0));
+	//ball4->ApplyForce(glm::vec2(-80, -10));	
 
 	return true;
 }
@@ -125,7 +125,6 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	aie::Gizmos::clear();
 	
 	physicsScene->Update(deltaTime);
-	//PLANE NOT DRAWING 
 	physicsScene->UpdateGizmos();
 
 	//float ballMass = ball1->GetMass();
@@ -146,15 +145,23 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 		//mouse position
 		int mouseX;
 		int mouseY;
-		input->getMouseXY(&mouseX, &mouseX);
+		input->getMouseXY(&mouseX, &mouseY);
 
 		//convert mouse x & y to range -1 to 1
 		vec2 nMousePos = (vec2((float)mouseX, (float)mouseY) / winDim) - vec2(1.0, 1.0);
 
 		//convert to world space
 		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
+
+		newSphere = new Sphere(worldMousePos, vec2(0, 0), 4.0f, 4, 12, vec4(0, 1, 0, 1));
+		physicsScene->AddActor(newSphere);
+
+		//cout << "Last item shape type: " << physicsScene->actors.back()->GetShapeType() << endl;
+		//newSphere->ApplyForce(vec2(0, -10));
 	}
 
+	//cout << "Vector size: " << physicsScene->actors.size() << endl;
+	
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();

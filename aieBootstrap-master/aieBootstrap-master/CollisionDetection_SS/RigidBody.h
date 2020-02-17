@@ -4,6 +4,7 @@
 #include "PhysicsObject.h"
 
 using namespace std;
+using namespace glm;
 
 class RigidBody : public PhysicsObject
 {
