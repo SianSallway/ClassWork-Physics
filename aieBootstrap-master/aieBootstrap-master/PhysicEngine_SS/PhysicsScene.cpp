@@ -53,34 +53,55 @@ void PhysicsScene::Update(float deltaTime)
 					continue;
 				}
 
-				RigidBody* pRigid = dynamic_cast<RigidBody*>(pActor);
-
-				if (pRigid->CheckCollision(pOther) == true )
+				cout << "current actor is: " << pActor->GetShapeType() << endl;
+				
+				if (pActor->GetShapeType() == 0)
 				{
-					/*//combined mass of two spheres
-					float comMass = (pRigid->GetMass() * dynamic_cast<RigidBody*>(pOther)->GetMass()) / (pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass()) * 0.5;
-					
-					//relative velocity of two spheres
-					glm::vec2 relVel = pRigid->GetVelocity() - dynamic_cast<RigidBody*>(pOther)->GetVelocity();
+					Plane* pPlane = dynamic_cast<Plane*>(pActor);
 
-					glm::vec2 impact = glm::normalize(dynamic_cast<RigidBody*>(pOther)->GetPosition() - pRigid->GetPosition());
-
-					float transmittedForce = glm::dot(relVel, impact);
-
-					//addforcetoactor(pOther, relative velocity * combinedmass
-					pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), relVel * transmittedForce * comMass);
-					
-					//one solution
-					//pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), pRigid->GetVelocity() * pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass());*/
-
-					//pRigid->SetVelocity(vec2(0, 0));
-					//dynamic_cast<RigidBody*>(pOther)->SetVelocity(vec2(0, 0));
-					
-					CheckForCollision();
-
-					dirty.push_back(pRigid);
-					dirty.push_back(pOther);
+					if (pPlane->CheckCollision(pOther))
+					{
+						CheckForCollision();
+					}
 				}
+				else
+				{
+					RigidBody* pRigid = dynamic_cast<RigidBody*>(pActor);
+
+					if (pRigid->CheckCollision(pOther) == true)
+					{
+						/*//combined mass of two spheres
+						float comMass = (pRigid->GetMass() * dynamic_cast<RigidBody*>(pOther)->GetMass()) / (pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass()) * 0.5;
+
+						//relative velocity of two spheres
+						glm::vec2 relVel = pRigid->GetVelocity() - dynamic_cast<RigidBody*>(pOther)->GetVelocity();
+
+						glm::vec2 impact = glm::normalize(dynamic_cast<RigidBody*>(pOther)->GetPosition() - pRigid->GetPosition());
+
+						float transmittedForce = glm::dot(relVel, impact);
+
+						//addforcetoactor(pOther, relative velocity * combinedmass
+						pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), relVel * transmittedForce * comMass);
+
+						//one solution
+						//pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), pRigid->GetVelocity() * pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass());*/
+
+						//pRigid->SetVelocity(vec2(0, 0));
+						//dynamic_cast<RigidBody*>(pOther)->SetVelocity(vec2(0, 0));
+
+						CheckForCollision();
+
+						dirty.push_back(pRigid);
+						dirty.push_back(pOther);
+					}
+				}
+
+
+				/*else if (pRigid == nullptr)
+				{
+					PhysicsObject* currActor = dynamic_cast<PhysicsObject*>(pRigid);
+					CheckForCollision();
+				}*/
 			}
 		}
 		dirty.clear();

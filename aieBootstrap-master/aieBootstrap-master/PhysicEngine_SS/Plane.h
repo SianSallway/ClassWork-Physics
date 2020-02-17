@@ -1,16 +1,16 @@
 #pragma once
-//#include "PhysicsObject.h"
+#include "PhysicsObject.h"
 #include "RigidBody.h"
 #include <iostream>
 
 using namespace std;
 using namespace glm;
 
-class Plane : public RigidBody
+class Plane : public PhysicsObject
 {
 public:
 
-	//Plane() {};
+	Plane() {};
 	Plane(vec2 planeNormal, float distance, vec4 planeColour);
 	~Plane() {};
 

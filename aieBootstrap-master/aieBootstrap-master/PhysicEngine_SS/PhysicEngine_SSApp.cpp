@@ -90,7 +90,7 @@ bool PhysicEngine_SSApp::startup()
 	ball3 = new Sphere(glm::vec2(40, 20), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
 	ball4 = new Sphere(glm::vec2(20, 50), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(0, 1, 0, 1));
 	plane1 = new Plane(vec2(1,2), 5, vec4(1, 1, 1, 1));
-	//plane2 = new Plane(vec2(3,5), 5, vec4(1, 1, 1, 1));
+	//plane2 = new Plane(vec2(3,6), 10, vec4(1, 0, 0, 1));
 
 	physicsScene->AddActor(ball1);
 	physicsScene->AddActor(ball2);
@@ -135,6 +135,25 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	{
 		aie::Gizmos::add2DCircle(glm::vec2(ball2->GetPosition().x, ball2->GetPosition().y - 2), ball2->GetRadius(), ball2->GetSegments(), ball2->GetColour());
 	}*/
+
+	if (input->wasMouseButtonPressed(0))
+	{
+		//window dimensions
+		vec2 winDim = vec2(aie::Application::getWindowWidth() * 0.5, aie::Application::getWindowHeight() * 0.5);
+
+		static float aspectRatio = winDim.x / winDim.y;
+
+		//mouse position
+		int mouseX;
+		int mouseY;
+		input->getMouseXY(&mouseX, &mouseX);
+
+		//convert mouse x & y to range -1 to 1
+		vec2 nMousePos = (vec2((float)mouseX, (float)mouseY) / winDim) - vec2(1.0, 1.0);
+
+		//convert to world space
+		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
+	}
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Plane::Plane(vec2 planeNormal, float distance, vec4 planeColour) : RigidBody(ShapeType::PLANE, normal, vec2(0,0), 0, 0)
+Plane::Plane(vec2 planeNormal, float distance, vec4 planeColour) : PhysicsObject(ShapeType::PLANE) //: RigidBody(ShapeType::PLANE, normal, vec2(0,0), 0, 0)
 {
 	normal = normalize(planeNormal);
 	distanceToOrigin = distance;
