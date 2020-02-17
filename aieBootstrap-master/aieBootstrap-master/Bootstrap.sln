@@ -15,13 +15,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project3D", "Project3D\Proj
 		{AF59BB0B-E059-4773-83DC-728A949647DA} = {AF59BB0B-E059-4773-83DC-728A949647DA}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysicsIntro_SianSallway", "PhysicsIntro_SianSallway\PhysicsIntro_SianSallway.vcxproj", "{DEA49362-B428-4215-8D64-4EA0B4FF0858}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SianPhysicsIntro", "TonyTest\TonyTest.vcxproj", "{614727A4-0097-40E1-8A0D-454EE6E0328E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysicEngine_SS", "PhysicEngine_SS\PhysicEngine_SS.vcxproj", "{8340BF00-1A13-45E0-A542-DC61AA3FA7D9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CollisionDetection_SS", "CollisionDetection_SS\CollisionDetection_SS.vcxproj", "{52014D1E-8C86-4BAF-8C60-A8D9D87BCD44}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinearForceMomentum_SS", "LinearForceMomentum_SS\LinearForceMomentum_SS.vcxproj", "{DEA49362-B428-4215-8D64-4EA0B4FF0858}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,22 +53,6 @@ Global
 		{EA21C4DF-E331-4FCF-8513-14A3F56B77F3}.Release|x64.Build.0 = Release|x64
 		{EA21C4DF-E331-4FCF-8513-14A3F56B77F3}.Release|x86.ActiveCfg = Release|Win32
 		{EA21C4DF-E331-4FCF-8513-14A3F56B77F3}.Release|x86.Build.0 = Release|Win32
-		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Debug|x64.ActiveCfg = Debug|x64
-		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Debug|x64.Build.0 = Debug|x64
-		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Debug|x86.ActiveCfg = Debug|Win32
-		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Debug|x86.Build.0 = Debug|Win32
-		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x64.ActiveCfg = Release|x64
-		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x64.Build.0 = Release|x64
-		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x86.ActiveCfg = Release|Win32
-		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x86.Build.0 = Release|Win32
-		{614727A4-0097-40E1-8A0D-454EE6E0328E}.Debug|x64.ActiveCfg = Debug|x64
-		{614727A4-0097-40E1-8A0D-454EE6E0328E}.Debug|x64.Build.0 = Debug|x64
-		{614727A4-0097-40E1-8A0D-454EE6E0328E}.Debug|x86.ActiveCfg = Debug|Win32
-		{614727A4-0097-40E1-8A0D-454EE6E0328E}.Debug|x86.Build.0 = Debug|Win32
-		{614727A4-0097-40E1-8A0D-454EE6E0328E}.Release|x64.ActiveCfg = Release|x64
-		{614727A4-0097-40E1-8A0D-454EE6E0328E}.Release|x64.Build.0 = Release|x64
-		{614727A4-0097-40E1-8A0D-454EE6E0328E}.Release|x86.ActiveCfg = Release|Win32
-		{614727A4-0097-40E1-8A0D-454EE6E0328E}.Release|x86.Build.0 = Release|Win32
 		{8340BF00-1A13-45E0-A542-DC61AA3FA7D9}.Debug|x64.ActiveCfg = Debug|x64
 		{8340BF00-1A13-45E0-A542-DC61AA3FA7D9}.Debug|x64.Build.0 = Debug|x64
 		{8340BF00-1A13-45E0-A542-DC61AA3FA7D9}.Debug|x86.ActiveCfg = Debug|Win32
@@ -87,6 +69,14 @@ Global
 		{52014D1E-8C86-4BAF-8C60-A8D9D87BCD44}.Release|x64.Build.0 = Release|x64
 		{52014D1E-8C86-4BAF-8C60-A8D9D87BCD44}.Release|x86.ActiveCfg = Release|Win32
 		{52014D1E-8C86-4BAF-8C60-A8D9D87BCD44}.Release|x86.Build.0 = Release|Win32
+		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Debug|x64.ActiveCfg = Debug|x64
+		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Debug|x64.Build.0 = Debug|x64
+		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Debug|x86.ActiveCfg = Debug|Win32
+		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Debug|x86.Build.0 = Debug|Win32
+		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x64.ActiveCfg = Release|x64
+		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x64.Build.0 = Release|x64
+		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x86.ActiveCfg = Release|Win32
+		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,13 +15,13 @@ public:
 
 	//adds PhysicsObject pointer to the end of the actors vector
 	void AddActor(PhysicsObject* actor);
-	
+
 	//removes PhysicsObject pointer from the end of the actors vector
 	void RemoveActor(PhysicsObject* actor);
-	
+
 	//updates physical simulation, calls update function of each actor, handles collison detection and response 
 	void Update(float deltaTime);
-	
+
 	//handles the drawing of physical objects 
 	void UpdateGizmos();
 
@@ -32,12 +32,12 @@ public:
 	float GetTimeStep() const { return timeStep; };
 
 	//checks for collisions between each shape type
-	void CheckForCollision();
+	//void CheckForCollision();
 
-	static bool plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2);
+	/*static bool plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2);
 	static bool plane2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);
 	static bool sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2);
-	static bool sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);
+	static bool sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);*/
 
 	//calls debug function of each actor
 	void DebugScene();
@@ -48,5 +48,5 @@ protected:
 	glm::vec2 gravity;
 	float timeStep;
 	vector<PhysicsObject*> actors;									//stores all physical objects in scene 
-
 };
+

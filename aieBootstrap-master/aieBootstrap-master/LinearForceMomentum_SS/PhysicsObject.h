@@ -18,7 +18,7 @@ protected:
 
 	PhysicsObject(ShapeType id) : shapeID() {}
 
-public: 
+public:
 
 	PhysicsObject() {}
 
@@ -32,3 +32,4 @@ protected:
 
 	ShapeType shapeID;
 };
+

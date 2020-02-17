@@ -1,7 +1,11 @@
 #pragma once
-
 #include "Application.h"
 #include "Renderer2D.h"
+#include "PhysicsScene.h"
+#include "Sphere.h"
+#include <glm\ext.hpp>
+
+using namespace glm;
 
 class LinearForceMomentum_SSApp : public aie::Application {
 public:
@@ -19,4 +23,7 @@ protected:
 
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*			m_font;
+	PhysicsScene*		physicsScene;
+	Sphere*				ball1;
+	Sphere*				ball2;
 };
