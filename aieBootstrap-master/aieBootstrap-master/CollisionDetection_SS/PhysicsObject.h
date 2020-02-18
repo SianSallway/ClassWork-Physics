@@ -17,7 +17,7 @@ class PhysicsObject
 {
 protected:
 
-	PhysicsObject(ShapeType id) : shapeID() {}
+	PhysicsObject(ShapeType id) { shapeID = id; }
 
 public:
 

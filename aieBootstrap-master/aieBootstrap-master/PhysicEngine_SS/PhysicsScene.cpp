@@ -114,8 +114,6 @@ bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 
 		if (distanceMag <= (r * r))
 		{
-			//sphere1->SetVelocity(vec2(0, 0));
-			//sphere2->SetVelocity(vec2(0, 0));
 			sphere1->ResolveCollision(sphere2);
 
 			return true;
@@ -123,7 +121,6 @@ bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 	}
 	
 	return false;
-
 }
 
 bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
@@ -149,8 +146,6 @@ bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 
 		if (intersection >= 0)
 		{
-			//set sphere vel to 0
-			//sphere->SetVelocity(vec2(0, 0));
 			plane->ResolveCollision(sphere);
 			sphere->SetPosition(sphere->GetPosition() + (collisionNormal * intersection));
 

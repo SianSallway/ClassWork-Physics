@@ -1,6 +1,7 @@
 #include "RigidBody.h"
 #include <iostream>
 
+
 using namespace std;
 using namespace glm;
 
@@ -11,6 +12,8 @@ RigidBody::RigidBody(ShapeType id, glm::vec2 pos, glm::vec2 vel, float objectRot
 	rotation = objectRotation;
 	mass = objectMass;
 	this->shapeID = id;
+	linearDrag = 0.3f;
+	angularDrag = 0.3f;
 }
 
 RigidBody::~RigidBody()
@@ -36,6 +39,18 @@ void RigidBody::FixedUpdate(glm::vec2 g, float ts)
 	//gravity * mass * time step
 	ApplyForce(g * mass * ts);
 	position += velocity * ts;
+	velocity -= velocity * linearDrag * ts;
+	angularVelocity -= angularVelocity * angularDrag * ts;
+
+	if (length(velocity) < MIN_LINEAR_THRESHOLD)
+	{
+		velocity = vec2(0, 0);
+	}
+
+	if (abs(angularVelocity) < MIN_ROTATION_THRESHOLD)
+	{
+		angularVelocity = 0;
+	}
 }
 
 void RigidBody::ResolveCollision(RigidBody* actor2)

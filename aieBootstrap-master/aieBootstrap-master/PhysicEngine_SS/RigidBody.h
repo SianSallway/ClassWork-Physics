@@ -26,7 +26,8 @@ public:
 	void SetVelocity(glm::vec2 newVel) { velocity = newVel; }
 	float GetRotation() { return rotation; }
 	float GetMass() { return mass; }
-	//ShapeType GetShapeType() { return shapeID; };
+	void SetLinearDrag(float linDrag) { linearDrag = linDrag; };
+	void SetAngularDrag(float angDrag) { angularDrag = angDrag; };
 
 protected:
 
@@ -34,4 +35,10 @@ protected:
 	glm::vec2 velocity;
 	float mass;
 	float rotation;
+	float linearDrag;
+	float angularDrag;
+	const float  MIN_LINEAR_THRESHOLD = 0.1f;
+	const float  MIN_ROTATION_THRESHOLD = 0.01f;
+	float angularVelocity;
+
 };
