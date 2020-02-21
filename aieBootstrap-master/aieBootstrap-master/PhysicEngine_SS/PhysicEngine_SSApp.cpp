@@ -127,14 +127,6 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	physicsScene->Update(deltaTime);
 	physicsScene->UpdateGizmos();
 
-	//float ballMass = ball1->GetMass();
-	//ballMass -= 0.5f;
-
-	/*if (ball1->GetPosition().y > 0)
-	{
-		aie::Gizmos::add2DCircle(glm::vec2(ball2->GetPosition().x, ball2->GetPosition().y - 2), ball2->GetRadius(), ball2->GetSegments(), ball2->GetColour());
-	}*/
-
 	if (input->wasMouseButtonPressed(0))
 	{
 		//window dimensions

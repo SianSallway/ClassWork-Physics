@@ -78,11 +78,11 @@ bool ProjectilePhysics_SSApp::startup() {
 
 	physicsScene = new PhysicsScene();
 	//for projectile set y to -10
-	physicsScene->SetGravity(glm::vec2(0, -20));
-	physicsScene->SetTimeStep(0.01f);
+	physicsScene->SetGravity(glm::vec2(0, -10));
+	physicsScene->SetTimeStep(0.1f);
 
 	SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
-	SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
+	SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), physicsScene->GetGravity(), 45);
 
 	return true;
 }
@@ -98,7 +98,7 @@ void ProjectilePhysics_SSApp::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	aie::Gizmos::clear();
+	//aie::Gizmos::clear();
 
 	physicsScene->Update(deltaTime);
 	physicsScene->UpdateGizmos();
