@@ -26,6 +26,7 @@ public:
 	void SetVelocity(glm::vec2 newVel) { velocity = newVel; }
 	float GetRotation() { return rotation; }
 	float GetMass() { return mass; }
+	float GetElasticity() { return elasticity; }
 	void SetLinearDrag(float linDrag) { linearDrag = linDrag; };
 	void SetAngularDrag(float angDrag) { angularDrag = angDrag; };
 
@@ -40,5 +41,6 @@ protected:
 	const float  MIN_LINEAR_THRESHOLD = 0.1f;
 	const float  MIN_ROTATION_THRESHOLD = 0.01f;
 	float angularVelocity;
+	float elasticity;
 
 };

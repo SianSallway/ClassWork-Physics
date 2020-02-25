@@ -14,6 +14,8 @@ RigidBody::RigidBody(ShapeType id, glm::vec2 pos, glm::vec2 vel, float objectRot
 	this->shapeID = id;
 	linearDrag = 0.3f;
 	angularDrag = 0.3f;
+	elasticity = 1;
+	angularVelocity = 0.01f;
 }
 
 RigidBody::~RigidBody()
@@ -58,7 +60,7 @@ void RigidBody::ResolveCollision(RigidBody* actor2)
 	vec2 normal = normalize(actor2->GetPosition() - position);
 	vec2 relVel = actor2->GetVelocity() - velocity;
 
-	float elasticity = 1;
+	elasticity = (elasticity + actor2->GetElasticity()) / 2.0f;
 	float j = dot(-(1 + elasticity) * (relVel), normal) / dot(normal, normal * ((1/mass) + (1/actor2->GetMass())));
 
 	vec2 force = normal * j;
