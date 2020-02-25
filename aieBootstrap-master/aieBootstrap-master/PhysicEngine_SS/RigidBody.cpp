@@ -1,7 +1,6 @@
 #include "RigidBody.h"
 #include <iostream>
 
-
 using namespace std;
 using namespace glm;
 

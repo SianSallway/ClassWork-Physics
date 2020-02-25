@@ -14,9 +14,11 @@ Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMas
 }
 
 void Sphere::MakeGizmo()
-{	
-	aie::Gizmos::add2DCircle(position, radius, segments, colour);
+{
+	glm::vec2 end = glm::vec2(cos(rotation), sin(rotation)) * radius;
 
+	aie::Gizmos::add2DCircle(position, radius, segments, colour);
+	aie::Gizmos::add2DLine(position, position + end, glm::vec4(1, 1, 1, 1));
 }
 
 bool Sphere::CheckCollision(PhysicsObject* pOther)
@@ -28,7 +30,7 @@ bool Sphere::CheckCollision(PhysicsObject* pOther)
 		float distance = glm::distance(position, otherSphere->position);
 
 		float r = radius * otherSphere->radius;
-		
+
 		if (distance < r)
 		{
 			return true;
