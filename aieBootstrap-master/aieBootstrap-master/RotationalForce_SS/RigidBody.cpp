@@ -32,6 +32,7 @@ RigidBody::~RigidBody()
 void RigidBody::ApplyForce(vec2 force, vec2 pos)
 {
 	vec2 acceleration = force / mass;
+	velocity += acceleration;
 	angularVelocity += (force.y * pos.x - force.x * pos.y) / (moment);
 }
 
@@ -44,7 +45,7 @@ void RigidBody::ApplyForce(vec2 force, vec2 pos)
 void RigidBody::FixedUpdate(glm::vec2 g, float ts)
 {
 	//gravity * mass * time step
-	//ApplyForce(g * mass * ts);
+	ApplyForce(g * mass * ts, vec2(0, 0));
 	position += velocity * ts;
 
 	velocity -= velocity * linearDrag * ts;
@@ -60,6 +61,13 @@ void RigidBody::FixedUpdate(glm::vec2 g, float ts)
 	{
 		angularVelocity = 0;
 	}
+	cout << "g: " << g.x << ", " << g.y << endl;
+	cout << "mass: " << mass << endl;
+	cout << "position: " << position.x << ", " << position.y << endl;
+	cout << "velocity: " << velocity.x << ", " << velocity.y << endl;
+	cout << "rotation: " << rotation << endl;
+	cout << "linearDrag: " << linearDrag << endl;
+	cout << "anguarVelocity: " << angularVelocity << endl;
 }
 
 /*void RigidBody::ResolveCollision(RigidBody* actor2)
