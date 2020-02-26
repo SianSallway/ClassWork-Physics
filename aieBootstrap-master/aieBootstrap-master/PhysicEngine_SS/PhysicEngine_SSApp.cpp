@@ -13,8 +13,15 @@ PhysicEngine_SSApp::PhysicEngine_SSApp() {
 
 }
 
-PhysicEngine_SSApp::~PhysicEngine_SSApp() {
-
+PhysicEngine_SSApp::~PhysicEngine_SSApp()
+{
+	/*delete ball1;
+	delete ball2;
+	delete ball3;
+	delete ball4;
+	delete newSphere;
+	delete plane1;
+	delete plane2;*/
 }
 
 void PhysicEngine_SSApp::SetupConinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity)

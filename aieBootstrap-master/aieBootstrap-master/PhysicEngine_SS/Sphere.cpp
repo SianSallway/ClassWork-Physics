@@ -4,6 +4,7 @@
 #include "Plane.h"
 
 using namespace std;
+using namespace glm;
 
 Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMass, float seg, glm::vec4 objectColour) : RigidBody(SPHERE, pos, vel, 0, sphereMass)
 {
@@ -11,12 +12,15 @@ Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMas
 	colour = objectColour;
 	segments = seg;
 	moment = 0.5f * mass * radius * radius;
+	cout << "moment:" << moment << endl;
 }
 
 void Sphere::MakeGizmo()
 {	
+	vec2 end = glm::vec2(cos(rotation), sin(rotation)) * radius;
+	
 	aie::Gizmos::add2DCircle(position, radius, segments, colour);
-
+	aie::Gizmos::add2DLine(position, position + end, glm::vec4(1, 1, 1, 1));
 }
 
 bool Sphere::CheckCollision(PhysicsObject* pOther)

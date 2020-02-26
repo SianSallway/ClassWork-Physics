@@ -1,4 +1,5 @@
 #include "RigidBody.h"
+#include "Sphere.h"
 #include <iostream>
 
 using namespace std;
@@ -33,7 +34,7 @@ void RigidBody::ApplyForce(vec2 force, vec2 pos)
 {
 	vec2 acceleration = force / mass;
 	velocity += acceleration;
-	angularVelocity += (force.y * pos.x - force.x * pos.y) / (moment);
+	angularVelocity += (force.y * pos.x + force.x * pos.y) / (moment);
 }
 
 /*void RigidBody::ApplyForceToActor(RigidBody* actor2, vec2 force)

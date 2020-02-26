@@ -5,18 +5,35 @@
 
 using namespace std;
 
-/*Box::Box(vec2 pos, vec2 vel, float mass, float w, float l, vec4 objectColour) : RigidBody(BOX, pos, vel, 0, mass)
+/*Box::Box(vec2 boxLocalX, vec2 boxLocalY, vec2 boxExtents, vec4 objectColour) : RigidBody(BOX, pos, vel, 0, mass)
 {
-	position = pos;
-	velocity = vel;
-	width = w;
-	legnth = l;
+	localX = boxLocalX;
+	localY = boxLocalY;
+	extents = boxExtents;
 	colour = objectColour;
 }*/
 
+void Box::FixedUpdate(vec2 grav, float ts)
+{
+	RigidBody::FixedUpdate(grav, ts);
+
+	//store local axes
+	float cs = cosf(rotation);
+	float sn = sinf(rotation);
+	localX = normalize(vec2(cs, sn));
+	localY = normalize(vec2(-sn, cs));
+}
+
 void Box::MakeGizmo()
 {
-	//aie::Gizmos::add2DAABB(position, );
+	//draw using local axes
+	vec2 p1 = position - localX * extents.x - localY * extents.y;
+	vec2 p2 = position + localX * extents.x - localY * extents.y;
+	vec2 p3 = position - localX * extents.x + localY * extents.y;
+	vec2 p4 = position + localX * extents.x + localY * extents.y;
+
+	aie::Gizmos::add2DTri(p1, p2, p4, colour);
+	aie::Gizmos::add2DTri(p1, p4, p3, colour);
 }
 
 bool Box::CheckCollision(PhysicsObject* pOther)

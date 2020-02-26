@@ -64,7 +64,7 @@ void PhysicsScene::RemoveActor(PhysicsObject* actor)
 }
 
 //function pointer for collisions
-typedef bool(*fn)(PhysicsObject*, PhysicsObject*);				 
+typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
 
 //function array
 static fn collisionFuncArray[] =
@@ -89,7 +89,7 @@ void PhysicsScene::CheckForCollision()
 			//use function pointers
 			int functionIndex = (shapeID1 * SHAPE_COUNT) + shapeID2;
 			fn collisionFuncPtr = collisionFuncArray[functionIndex];
-			
+
 			if (collisionFuncPtr != nullptr)
 			{
 				//check if a collision occured
@@ -114,25 +114,25 @@ bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 
 		if (distanceMag <= (r * r))
 		{
-			sphere1->ResolveCollision(sphere2);
+			sphere1->ResolveCollision(sphere2, 0.5f * (sphere1->GetPosition() + sphere2->GetPosition()));
 
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
 bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 {
 	Sphere* sphere = dynamic_cast<Sphere*>(obj1);
-	Plane*  plane = dynamic_cast<Plane*>(obj2);
+	Plane* plane = dynamic_cast<Plane*>(obj2);
 
 	//if cast successful test for collision
 	if (sphere != nullptr && plane != nullptr)
 	{
 		vec2 collisionNormal = plane->GetNormal();
-		float sphereToPlane = dot(sphere->GetPosition(), plane->GetNormal())- plane->GetDistance();
+		float sphereToPlane = dot(sphere->GetPosition(), plane->GetNormal()) - plane->GetDistance();
 
 		//if behind plane flip normal
 		if (sphereToPlane < 0)
@@ -142,11 +142,11 @@ bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 		}
 
 		float intersection = sphere->GetRadius() - sphereToPlane;
-
+		vec2 contact = sphere->GetPosition() + (collisionNormal * -sphere->GetRadius());
 
 		if (intersection >= 0)
 		{
-			plane->ResolveCollision(sphere);
+			plane->ResolveCollision(sphere, contact);
 			sphere->SetPosition(sphere->GetPosition() + (collisionNormal * intersection));
 
 			return true;
@@ -170,7 +170,7 @@ bool PhysicsScene::plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 void PhysicsScene::DebugScene()
 {
 	int count = 0;
-	
+
 	for (auto pActor : actors)
 	{
 		cout << count << " : ";
