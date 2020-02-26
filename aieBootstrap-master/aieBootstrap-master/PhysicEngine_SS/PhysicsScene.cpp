@@ -4,6 +4,7 @@
 #include "RigidBody.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Box.h"
 
 using namespace std;
 using namespace glm;
@@ -69,7 +70,7 @@ typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
 //function array
 static fn collisionFuncArray[] =
 {
-	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere,
+	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::box2Plane,
 };
 
 void PhysicsScene::CheckForCollision()
@@ -164,6 +165,23 @@ bool PhysicsScene::plane2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 bool PhysicsScene::plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 {
 	return false;
+}
+
+bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
+{
+	Box* box = dynamic_cast<Box*>(obj1);
+	Plane* plane = dynamic_cast<Plane*>(obj2);
+	
+	//if cast successful test for collision
+	if (box != nullptr && plane != nullptr)
+	{
+		int numContacts = 0;
+		vec2 contact = vec2(0, 0);
+		float contactV = 0;
+		float radius = 0.5f * fminf(box->GetWidth(), box->GetHeight());
+
+		//left off here
+	}
 }
 
 //calls debug function of each actor

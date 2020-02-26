@@ -41,7 +41,7 @@ void RigidBody::ApplyForce(vec2 force, vec2 pos)
 	}
 	/*else if (shapeID == BOX)
 	{
-
+		angularVelocity += (force.y * pos.x - force.x * pos.y) / (moment);
 	}*/
 
 

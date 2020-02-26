@@ -11,12 +11,16 @@ class Box : public RigidBody
 {
 public:
 
-	Box(vec2 boxLocalX, vec2 boxLocalY, vec2 boxExtents, vec4 objectColour);
+	Box(vec2 pos, vec2 vel, vec2 boxExtents, vec4 objectColour);
 	~Box() {}
 
 	virtual void FixedUpdate(vec2 grav, float ts);
 	virtual void MakeGizmo();
 	virtual bool CheckCollision(PhysicsObject* pOther);
+
+	float GetWidth() { return  extents.x * 2; }
+	float GetHeight() { return extents.y * 2; }
+
 
 protected:
 
@@ -24,6 +28,5 @@ protected:
 	vec2 localY;
 	vec2 extents;				//the halfedge lengths
 	vec4 colour;
-
 };
 

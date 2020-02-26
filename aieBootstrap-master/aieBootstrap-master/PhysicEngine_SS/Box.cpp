@@ -5,10 +5,10 @@
 
 using namespace std;
 
-/*Box::Box(vec2 boxLocalX, vec2 boxLocalY, vec2 boxExtents, vec4 objectColour) : RigidBody(BOX, pos, vel, 0, mass)
+/*Box::Box(vec2 pos, vec2 vel, vec2 boxExtents, vec4 objectColour) : RigidBody(BOX, pos, vel, 0, mass)
 {
-	localX = boxLocalX;
-	localY = boxLocalY;
+	position = pos;
+	velocity = vel;
 	extents = boxExtents;
 	colour = objectColour;
 }*/
