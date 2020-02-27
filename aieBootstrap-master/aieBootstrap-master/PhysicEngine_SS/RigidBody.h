@@ -26,10 +26,12 @@ public:
 
 	vec2 GetPosition() { return position; }
 	vec2 GetVelocity() { return velocity; }
+	float GetAngularVelocity() { return angularVelocity; }
 	void SetVelocity(glm::vec2 newVel) { velocity = newVel; }
 	float GetRotation() { return rotation; }
 	float GetMass() { return mass; }
 	float GetElasticity() { return elasticity; }
+	float GetMoment() { return moment; }
 	void SetLinearDrag(float linDrag) { linearDrag = linDrag; };
 	void SetAngularDrag(float angDrag) { angularDrag = angDrag; };
 

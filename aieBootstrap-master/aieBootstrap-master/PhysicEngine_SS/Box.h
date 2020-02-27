@@ -18,6 +18,9 @@ public:
 	virtual void MakeGizmo();
 	virtual bool CheckCollision(PhysicsObject* pOther);
 
+	vec2 GetExtents() { return extents; }
+	vec2 GetLocalX() { return localX; }
+	vec2 GetLocalY() { return localY; }
 	float GetWidth() { return  extents.x * 2; }
 	float GetHeight() { return extents.y * 2; }
 

@@ -177,11 +177,62 @@ bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 	{
 		int numContacts = 0;
 		vec2 contact = vec2(0, 0);
-		float contactV = 0;
+		float contactVel = 0;
 		float radius = 0.5f * fminf(box->GetWidth(), box->GetHeight());
 
-		//left off here
+		//which side is the centre of mass (COM) on
+		vec2 planeOrigin = plane->GetNormal() * plane->GetDistance();
+		float comFromPlane = dot(box->GetPosition() - planeOrigin, plane->GetNormal());
+
+		//check corners to see if they've hit the plane
+		for (float x = -box->GetExtents().x; x < box->GetWidth(); x += box->GetWidth())
+		{
+			for (float y = -box->GetExtents().y; y < box->GetHeight(); y += box->GetHeight())
+			{
+				//get position of the corner in world space
+				vec2 pos = box->GetPosition() + x * box->GetLocalX() + y * box->GetLocalY();
+
+				float distanceFromPlane = dot(pos - planeOrigin, plane->GetNormal());
+
+				//total velocity of the point
+				float velIntoPlane = dot(box->GetVelocity() + box->GetAngularVelocity() * 
+					(-y * box->GetLocalX() + x * box->GetLocalY()), plane->GetNormal());
+
+				//if this corner is on the opposite side from the COM and moving further in the 
+				//collision needs to be solved
+				if ((distanceFromPlane > 0 && comFromPlane < 0 && velIntoPlane > 0) || (distanceFromPlane < 0 && comFromPlane > 0 && velIntoPlane < 0))
+				{
+					numContacts++;
+					contact += pos;
+					contactVel += velIntoPlane;
+				}
+			}
+		}
+
+		//if contact has been made
+		if (numContacts > 0)
+		{
+			//get avg collision velocity into plane
+			float collisionVel = contactVel / (float)numContacts;
+
+			//get acceleration to stop (0) or reverse (1) the avg velocity in place 
+			vec2 acceleration = -plane->GetNormal() * ((1.0f + box->GetElasticity()) * collisionVel);
+
+			//get avg position to apply the force to
+			vec2 localContact = (contact / (float)numContacts) - box->GetPosition();
+
+			//perpendicular distance we apply force at relative to the COM, Torque = F * r
+			float r = dot(localContact, vec2(plane->GetNormal().y, -plane->GetNormal().x));
+
+			// get the effective mass - this is a combination of moment of inertia and mass, and tells us how much the contact point velocity
+			// will change with the force we're applying
+			float mass0 = 1.0f / (1.0f / box->GetMass() + (r * r) / box->GetMoment());
+
+			//apply the force
+			box->ApplyForce(acceleration * mass0, localContact);
+		}
 	}
+	return false;
 }
 
 //calls debug function of each actor
