@@ -70,7 +70,7 @@ typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
 //function array
 static fn collisionFuncArray[] =
 {
-	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::box2Plane,
+	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::box2Plane, PhysicsScene::box2Sphere,
 };
 
 void PhysicsScene::CheckForCollision()
@@ -232,6 +232,92 @@ bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 			box->ApplyForce(acceleration * mass0, localContact);
 		}
 	}
+	return false;
+}
+
+bool PhysicsScene::box2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
+{
+	Box* box = dynamic_cast<Box*>(obj1);
+	Sphere* sphere = dynamic_cast<Sphere*>(obj2);
+
+	if (box != nullptr && sphere != nullptr)
+	{
+		vec2 spherePos = sphere->GetPosition() - box->GetPosition();
+
+		float w2 = box->GetWidth() / 2;
+		float h2 = box->GetHeight() / 2;
+
+		int numContacts = 0;
+		//contact is in our box coordinates
+		vec2 contact = vec2(0, 0);
+
+		//check the four corners to see if any of them are inside the sphere 
+		for (float x = -w2; x <= w2; x += box->GetWidth())
+		{
+			for (float y = -h2; y <= h2; y += box->GetHeight())
+			{
+				vec2 pos = x * box->GetLocalX() + y * box->GetLocalY();
+				vec2 dp = pos - spherePos;
+
+				if (dp.x * dp.x + dp.y * dp.y < sphere->GetRadius() * sphere->GetRadius())
+				{
+					numContacts++;
+					contact += vec2(x, y);
+				}
+			}
+		}
+
+		vec2* direction = nullptr;
+
+		//get local position of sphere centre
+		vec2 localPos = vec2(dot(box->GetLocalX(), spherePos), dot(box->GetLocalY(), spherePos));
+
+		if (localPos.y < h2 && localPos.y > -h2)
+		{
+			if (localPos.x > 0 && localPos.x < w2 + sphere->GetRadius())
+			{
+				numContacts++;
+				contact += vec2(w2, localPos.y);
+				direction = new vec2(box->GetLocalX());
+			}
+
+			if (localPos.x < 0 && localPos.x > -(w2 + sphere->GetRadius()))
+			{
+				numContacts++;
+				contact += vec2(-w2, localPos.y);
+				direction = new vec2(-box->GetLocalX());
+			}
+		}
+
+		if (localPos.x < w2 && localPos.x > -w2)
+		{
+			if (localPos.y > 0 && localPos.y < h2 + sphere->GetRadius())
+			{
+				numContacts++;
+				contact += vec2(localPos.x, h2);
+				direction = new vec2(box->GetLocalY());
+			}
+
+			if (localPos.y < 0 && localPos.y > -(h2 + sphere->GetRadius()))
+			{
+				numContacts++;
+				contact += vec2(localPos.x, -h2);
+				direction = new vec2(-box->GetLocalY());
+			}
+		}
+
+		if (numContacts > 0)
+		{
+			//avg and convert back into worl coords
+			contact = box->GetPosition() + (1.0f / numContacts) *
+				(box->GetLocalX() * contact.x + box->GetLocalY() * contact.y);
+
+			box->ResolveCollision(sphere, contact, direction);
+		}
+
+		delete direction;
+	}
+
 	return false;
 }
 
