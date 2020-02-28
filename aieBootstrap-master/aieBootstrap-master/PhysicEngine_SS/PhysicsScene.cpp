@@ -70,7 +70,7 @@ typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
 //function array
 static fn collisionFuncArray[] =
 {
-	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::box2Plane, PhysicsScene::box2Sphere,
+	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::box2Plane, PhysicsScene::box2Sphere, PhysicsScene::box2Box,
 };
 
 void PhysicsScene::CheckForCollision()
@@ -316,6 +316,38 @@ bool PhysicsScene::box2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 		}
 
 		delete direction;
+	}
+
+	return false;
+}
+
+bool PhysicsScene::box2Box(PhysicsObject* obj1, PhysicsObject* obj2)
+{
+	Box* box1 = dynamic_cast<Box*>(obj1);
+	Box* box2 = dynamic_cast<Box*>(obj2);
+
+	if (box1 != nullptr && box2 != nullptr)
+	{
+		vec2 boxPos = box2->GetCenter() - box1->GetCenter();
+
+		vec2 normal = vec2(0, 0);
+		vec2 contact = vec2(0, 0);
+		float pen = 0;
+		int numContacts = 0;
+
+		box1->CheckCorners(*box2, contact, numContacts, pen, normal);
+
+		if (box2->CheckCorners(*box1, contact, numContacts, pen, normal))
+		{
+			normal = -normal;
+		}
+
+		if (pen > 0)
+		{
+			box1->ResolveCollision(box2, contact / (float)numContacts, &normal);
+		}
+
+		return true;
 	}
 
 	return false;

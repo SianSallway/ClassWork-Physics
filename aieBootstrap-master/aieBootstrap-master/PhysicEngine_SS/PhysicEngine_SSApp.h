@@ -4,6 +4,7 @@
 #include "PhysicsScene.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Box.h"
 #include <glm\ext.hpp>
 
 using namespace glm;
@@ -35,4 +36,5 @@ protected:
 	Sphere*				track;
 	Plane*				plane1;
 	Plane*				plane2;
+	Box*				box1;
 };

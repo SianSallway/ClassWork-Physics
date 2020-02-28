@@ -40,6 +40,7 @@ public:
 	static bool sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);
 	static bool box2Plane(PhysicsObject* obj1, PhysicsObject* obj2);
 	static bool box2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);
+	static bool box2Box(PhysicsObject* obj1, PhysicsObject* obj2);
 
 	//calls debug function of each actor
 	void DebugScene();
