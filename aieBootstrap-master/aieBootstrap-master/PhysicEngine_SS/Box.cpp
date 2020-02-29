@@ -11,6 +11,7 @@ Box::Box(vec2 pos, vec2 vel, vec2 boxExtents, vec4 objectColour) : RigidBody(BOX
 	velocity = vel;
 	extents = boxExtents;
 	colour = objectColour;
+	center = position;
 }
 
 void Box::FixedUpdate(vec2 grav, float ts)
@@ -56,10 +57,10 @@ bool Box::CheckCorners(const Box& box, vec2& contact, int& numContacts, float& p
 		for (float y = -box.extents.y; y < boxHeight; y += boxHeight)
 		{
 			//pos in world space     replace position??
-			vec2 pos = box.position + x * box.localX + y * box.localY;
+			vec2 pos = box.center + x * box.localX + y * box.localY;
 
 			//pos in box's space     replace position??
-			vec2 pos0(dot(pos - position, localX), dot(pos - position, localY));
+			vec2 pos0(dot(pos - center, localX), dot(pos - center, localY));
 
 			if (first || pos0.x < minX)
 			{

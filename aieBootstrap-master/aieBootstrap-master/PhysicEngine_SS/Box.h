@@ -21,7 +21,7 @@ public:
 	vec2 GetExtents() { return extents; }
 	vec2 GetLocalX() { return localX; }
 	vec2 GetLocalY() { return localY; }
-	vec2 GetCenter() { return position; }
+	vec2 GetCenter() { return center; }
 	float GetWidth() { return  extents.x * 2; }
 	float GetHeight() { return extents.y * 2; }
 	
