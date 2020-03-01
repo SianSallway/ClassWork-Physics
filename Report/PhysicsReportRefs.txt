@@ -1,3 +1,0 @@
-https://docs.unity3d.com/Manual/ProfilerPhysics.html - 29/02/2020
-
-https://docs.unity3d.com/Manual/PhysicsDebugVisualization.html - 29/02/2020
