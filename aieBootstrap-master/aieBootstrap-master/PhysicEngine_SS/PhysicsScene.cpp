@@ -70,8 +70,10 @@ typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
 //function array
 static fn collisionFuncArray[] =
 {
-	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::box2Plane, PhysicsScene::box2Sphere, PhysicsScene::box2Box,
-	PhysicsScene::plane2Box, PhysicsScene::sphere2Box,
+	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::plane2Box,
+	PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::sphere2Box,
+	PhysicsScene::box2Plane, PhysicsScene::box2Sphere, PhysicsScene::box2Box,
+	 
 };
 
 void PhysicsScene::CheckForCollision()
@@ -90,7 +92,7 @@ void PhysicsScene::CheckForCollision()
 
 			//FIX
 			//use function pointers
-			int functionIndex = (shapeID1 * SHAPE_COUNT) + shapeID2 + 2;
+			int functionIndex = (shapeID1 * SHAPE_COUNT) + shapeID2;
 			fn collisionFuncPtr = collisionFuncArray[functionIndex];
 
 			if (collisionFuncPtr != nullptr)
@@ -171,8 +173,8 @@ bool PhysicsScene::plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 
 bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 {
-	Box* box = dynamic_cast<Box*>(obj2);
-	Plane* plane = dynamic_cast<Plane*>(obj1);
+	Box* box = dynamic_cast<Box*>(obj1);
+	Plane* plane = dynamic_cast<Plane*>(obj2);
 	
 	//if cast successful test for collision
 	if (box != nullptr && plane != nullptr)
@@ -369,7 +371,7 @@ bool PhysicsScene::box2Box(PhysicsObject* obj1, PhysicsObject* obj2)
 
 bool PhysicsScene::plane2Box(PhysicsObject* obj1, PhysicsObject* obj2)
 {
-	return box2Plane(obj1, obj2);
+	return box2Plane(obj2, obj1);
 }
 
 bool PhysicsScene::sphere2Box(PhysicsObject* obj1, PhysicsObject* obj2)

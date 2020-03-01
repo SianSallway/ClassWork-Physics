@@ -91,19 +91,19 @@ bool PhysicEngine_SSApp::startup()
 	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
 	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
-	ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
+	ball1 = new Sphere(glm::vec2(-20, -35), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	//For different tutorial ->//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
-	/*ball2 = new Sphere(glm::vec2(30, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
+	ball2 = new Sphere(glm::vec2(30, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	ball3 = new Sphere(glm::vec2(40, 20), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
-	ball4 = new Sphere(glm::vec2(20, 50), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));*/
+	ball4 = new Sphere(glm::vec2(20, 50), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	plane1 = new Plane(vec2(3,5), -45, vec4(1, 1, 1, 1));
 	plane2 = new Plane(vec2(3,-3), 45, vec4(1, 1, 1, 1));
 	box1 = new Box(vec2(0, -30), vec2(0, 0), vec2(5, 10), vec4(1, 0, 0, 1));
 
 	physicsScene->AddActor(ball1);
-	/*physicsScene->AddActor(ball2);
+	physicsScene->AddActor(ball2);
 	physicsScene->AddActor(ball3);
-	physicsScene->AddActor(ball4);*/
+	physicsScene->AddActor(ball4);
 	physicsScene->AddActor(plane1);
 	physicsScene->AddActor(plane2);
 	physicsScene->AddActor(box1);
