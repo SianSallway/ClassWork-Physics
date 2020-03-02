@@ -18,14 +18,39 @@ CollisionResolution_SSApp::~CollisionResolution_SSApp() {
 
 bool CollisionResolution_SSApp::startup()
 {
-	//increase the 2d line count to maximize the number of object we can draw
+	// increase the 2d line count to maximize the number of objects we can draw
 	aie::Gizmos::create(255U, 255U, 65535U, 65535U);
-	
+
 	m_2dRenderer = new aie::Renderer2D();
 
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
+
+	physicsScene = new PhysicsScene();
+	//for projectile set y to -10
+	physicsScene->SetGravity(glm::vec2(0, -20));
+	physicsScene->SetTimeStep(0.01f);
+
+	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
+	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
+
+	ball1 = new Sphere(vec2(-20, -35), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	//For different tutorial ->//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
+	ball2 = new Sphere(vec2(30, 0), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball3 = new Sphere(vec2(40, 20), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball4 = new Sphere(vec2(20, 0), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	plane1 = new Plane(vec2(3, 5), -45, vec4(1, 1, 1, 1));
+	plane2 = new Plane(vec2(3, -3), 45, vec4(1, 1, 1, 1));
+
+
+	physicsScene->AddActor(ball1);
+	physicsScene->AddActor(ball2);
+	physicsScene->AddActor(ball3);
+	physicsScene->AddActor(ball4);
+	physicsScene->AddActor(plane1);
+	physicsScene->AddActor(plane2);
+
 
 	return true;
 }
@@ -41,42 +66,37 @@ void CollisionResolution_SSApp::update(float deltaTime)
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	static const glm::vec4 colours[] = { glm::vec4(1,0,0,1), glm::vec4(0,1,0,1), glm::vec4(0,0,1,1), glm::vec4(0.8f,0,0.5f,1), glm::vec4(0,1,1,1) };
+	aie::Gizmos::clear();
 
-	static const int rows = 5; 
-	static const int columns = 10;
-	static const int hSpace = 1;
-	static const int vSpace = 1;
+	physicsScene->Update(deltaTime);
+	physicsScene->UpdateGizmos();
 
-	static const glm::vec2 scrExtents(100, 50);
-	static const glm::vec2 boxExtents(7, 3);
-	static const glm::vec2 startPos(-(columns >> 1)* ((boxExtents.x * 2) + vSpace) + boxExtents.x + (vSpace / 2.0f), scrExtents.y - ((boxExtents.y * 2) + hSpace));
-
-	//draw the grid of blocks
-	glm::vec2 pos;  
-	for (int y = 0; y < rows; y++) 
+	//Add a new sphere to the scene when the left mouse button is clicked
+	if (input->wasMouseButtonPressed(0))
 	{
-		pos = glm::vec2(startPos.x, startPos.y - (y * ((boxExtents.y * 2) + hSpace)));   
-		
-		for (int x = 0; x < columns; x++) 
-		{
-			aie::Gizmos::add2DAABBFilled(pos, boxExtents, colours[y]);    pos.x += (boxExtents.x * 2) + vSpace;
-		}
+		//window dimensions
+		vec2 winDim = vec2(aie::Application::getWindowWidth() * 0.5, aie::Application::getWindowHeight() * 0.5);
+
+		static float aspectRatio = winDim.x / winDim.y;
+
+		//mouse position
+		int mouseX;
+		int mouseY;
+		input->getMouseXY(&mouseX, &mouseY);
+
+		//convert mouse x & y to range -1 to 1
+		vec2 nMousePos = (vec2((float)mouseX, (float)mouseY) / winDim) - vec2(1.0, 1.0);
+
+		//convert to world space
+		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
+
+		newSphere = new Sphere(worldMousePos, vec2(0, 0), 4.0f, 4, 12, vec4(0, 1, 0, 1));
+		physicsScene->AddActor(newSphere);
+
+		//cout << "Last item shape type: " << physicsScene->actors.back()->GetShapeType() << endl;
+		//newSphere->ApplyForce(vec2(0, -10));
 	}
 
-	//draw the ball
-	aie::Gizmos::add2DCircle(glm::vec2(0, -35), 3, 12, glm::vec4(1, 1, 0, 1));
-
-	//draw the players paddle
-	aie::Gizmos::add2DAABBFilled(glm::vec2(0, -40), glm::vec2(12, 2), glm::vec4(1, 0, 1, 1));
-
-	//paddle movement
-	if (input->wasKeyPressed(aie::INPUT_KEY_A))
-	{
-		//cout << "Key 'A' was pressed" << endl;
-
-
-	}
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -93,6 +113,7 @@ void CollisionResolution_SSApp::draw()
 
 	// draw your stuff here!
 	static float aspectRatio = 16 / 9.f;
+
 	aie::Gizmos::draw2D(glm::ortho<float>(-100, 100, -100 / aspectRatio, 100 / aspectRatio, -1.0f, 1.0f));
 	
 	// output some text, uses the last used colour
