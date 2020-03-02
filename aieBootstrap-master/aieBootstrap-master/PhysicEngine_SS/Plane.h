@@ -6,6 +6,7 @@
 using namespace std;
 using namespace glm;
 
+//handles plane object properties and inherits from the PhysicsObject class
 class Plane : public PhysicsObject
 {
 public:
@@ -30,10 +31,13 @@ public:
 	//checks for collision with a sphere
 	virtual bool CheckCollision(PhysicsObject* pOther);
 
-	//
+	//resolve the collision between the plane and another object
 	void ResolveCollision(RigidBody* actor2, vec2 contact);
 
+	//returns the plane's normal
 	vec2 GetNormal() { return normal; }
+
+	//returns the value of distanceToOrigin 
 	float GetDistance() { return distanceToOrigin; }
 
 protected:

@@ -26,10 +26,12 @@ public:
 	virtual void Debug() = 0;
 	virtual void MakeGizmo() = 0;
 	virtual void ResetPosition() {};
+
+	//Returns physics objects shape type
 	ShapeType GetShapeType() { return shapeID; };
 
 protected:
 
-	ShapeType shapeID;
+	ShapeType shapeID;			//stores each physics objects shape type
 };
 

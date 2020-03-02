@@ -1,4 +1,4 @@
-#include "SianPhysicsIntroApp.h"
+#include "CollisionResolution_SSApp.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
@@ -8,15 +8,15 @@
 
 using namespace std;
 
-SianPhysicsIntroApp::SianPhysicsIntroApp() {
+CollisionResolution_SSApp::CollisionResolution_SSApp() {
 
 }
 
-SianPhysicsIntroApp::~SianPhysicsIntroApp() {
+CollisionResolution_SSApp::~CollisionResolution_SSApp() {
 
 }
 
-bool SianPhysicsIntroApp::startup() 
+bool CollisionResolution_SSApp::startup()
 {
 	//increase the 2d line count to maximize the number of object we can draw
 	aie::Gizmos::create(255U, 255U, 65535U, 65535U);
@@ -30,13 +30,13 @@ bool SianPhysicsIntroApp::startup()
 	return true;
 }
 
-void SianPhysicsIntroApp::shutdown() {
+void CollisionResolution_SSApp::shutdown() {
 
 	delete m_font;
 	delete m_2dRenderer;
 }
 
-void SianPhysicsIntroApp::update(float deltaTime)
+void CollisionResolution_SSApp::update(float deltaTime)
 {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -83,7 +83,7 @@ void SianPhysicsIntroApp::update(float deltaTime)
 		quit();
 }
 
-void SianPhysicsIntroApp::draw() 
+void CollisionResolution_SSApp::draw()
 {
 	// wipe the screen to the background colour
 	clearScreen();

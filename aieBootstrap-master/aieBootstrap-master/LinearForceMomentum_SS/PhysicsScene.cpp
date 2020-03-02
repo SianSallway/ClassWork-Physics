@@ -66,27 +66,12 @@ void PhysicsScene::Update(float deltaTime)
 						
 					float transmittedForce = glm::dot(relVel, impact);
 						
-					//addforcetoactor(pOther, relative velocity * combinedmass
 					pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), relVel * transmittedForce * comMass);
 						
-					//one solution
-					//pRigid->ApplyForceToActor(dynamic_cast<RigidBody*>(pOther), pRigid->GetVelocity() * pRigid->GetMass() + dynamic_cast<RigidBody*>(pOther)->GetMass());*/
-
-					//pRigid->SetVelocity(vec2(0, 0));
-					//dynamic_cast<RigidBody*>(pOther)->SetVelocity(vec2(0, 0));
-
-					//CheckForCollision();
 
 					dirty.push_back(pRigid);
 					dirty.push_back(pOther);
 				}			
-
-
-				/*else if (pRigid == nullptr)
-				{
-					PhysicsObject* currActor = dynamic_cast<PhysicsObject*>(pRigid);
-					CheckForCollision();
-				}*/
 			}
 		}
 		dirty.clear();

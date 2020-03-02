@@ -61,7 +61,14 @@ void PhysicsScene::AddActor(PhysicsObject* actor)
 //removes PhysicsObject pointer from the end of the actors vector
 void PhysicsScene::RemoveActor(PhysicsObject* actor)
 {
-	actors.pop_back();
+	for (int i = 0; 1 < actors.size(); i++)
+	{
+		if (actors[i]->GetShapeType() == SPHERE)
+		{
+			
+		}
+
+	}
 }
 
 //function pointer for collisions
@@ -72,8 +79,7 @@ static fn collisionFuncArray[] =
 {
 	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::plane2Box,
 	PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::sphere2Box,
-	PhysicsScene::box2Plane, PhysicsScene::box2Sphere, PhysicsScene::box2Box,
-	 
+	PhysicsScene::box2Plane, PhysicsScene::box2Sphere, PhysicsScene::box2Box,	 
 };
 
 void PhysicsScene::CheckForCollision()

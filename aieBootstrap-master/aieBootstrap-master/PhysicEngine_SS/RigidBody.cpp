@@ -14,8 +14,14 @@ RigidBody::RigidBody(ShapeType id, glm::vec2 pos, glm::vec2 vel, float objectRot
 	this->shapeID = id;
 	linearDrag = 0.3f;
 	angularDrag = 0.3f;
-	elasticity = 1;
+	elasticity = 0.9f;
 	angularVelocity = 0.01f;
+	isKinematic = true;
+
+	if (shapeID == BOX)
+	{
+		isKinematic = false;
+	}
 }
 
 RigidBody::~RigidBody()
@@ -62,23 +68,27 @@ float RigidBody::GetKineticEnergy()
 
 void RigidBody::FixedUpdate(glm::vec2 g, float ts)
 {
-	//gravity * mass * time step
-	ApplyForce(g * mass * ts, vec2(0, 0));
-	position += velocity * ts;
-
-	velocity -= velocity * linearDrag * ts;
-	rotation += angularVelocity * angularDrag * ts;
-	angularVelocity -= angularVelocity * angularDrag * ts;
-
-	if (length(velocity) < MIN_LINEAR_THRESHOLD)
+	if (isKinematic == true)
 	{
-		velocity = vec2(0, 0);
+		//gravity * mass * time step
+		ApplyForce(g * mass * ts, vec2(0, 0));
+		position += velocity * ts;
+
+		velocity -= velocity * linearDrag * ts;
+		rotation += angularVelocity * angularDrag * ts;
+		angularVelocity -= angularVelocity * angularDrag * ts;
+
+		if (length(velocity) < MIN_LINEAR_THRESHOLD)
+		{
+			velocity = vec2(0, 0);
+		}
+
+		if (abs(angularVelocity) < MIN_ROTATION_THRESHOLD)
+		{
+			angularVelocity = 0;
+		}
 	}
 
-	if (abs(angularVelocity) < MIN_ROTATION_THRESHOLD)
-	{
-		angularVelocity = 0;
-	}
 	/*cout << "g: " << g.x << ", " << g.y << endl;
 	cout << "mass: " << mass << endl;
 	cout << "position: " << position.x << ", " << position.y << endl;

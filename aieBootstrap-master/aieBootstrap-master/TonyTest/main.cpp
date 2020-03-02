@@ -1,9 +1,9 @@
-#include "SianPhysicsIntroApp.h"
+#include "CollisionResolution_SSApp.h"
 
 int main() {
 	
 	// allocation
-	auto app = new SianPhysicsIntroApp();
+	auto app = new CollisionResolution_SSApp();
 
 	// initialise and loop
 	app->run("AIE", 1280, 720, false);

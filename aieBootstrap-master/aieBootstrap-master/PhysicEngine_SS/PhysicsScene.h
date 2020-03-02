@@ -23,6 +23,7 @@ public:
 	
 	//removes PhysicsObject pointer from the end of the actors vector
 	void RemoveActor(PhysicsObject* actor);
+	//void RemoveActor();
 	
 	//updates physical simulation, calls update function of each actor, handles collison detection and response 
 	void Update(float deltaTime);
@@ -75,6 +76,7 @@ public:
 	//calls debug function of each actor
 	void DebugScene();
 
+	float GetActorsAmount() { return actors.size(); }
 
 protected:
 

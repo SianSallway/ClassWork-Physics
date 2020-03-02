@@ -5,12 +5,16 @@
 #include <vector>
 
 using namespace std;
+using namespace glm;
 
 class PhysicsScene
 {
 public:
 
+	//constructor
 	PhysicsScene();
+
+	//de-constructor
 	~PhysicsScene();
 
 	//adds PhysicsObject pointer to the end of the actors vector
@@ -25,19 +29,17 @@ public:
 	//handles the drawing of physical objects 
 	void UpdateGizmos();
 
-	void SetGravity(const glm::vec2 g) { gravity = g; };
-	glm::vec2 GetGravity() const { return gravity; };
+	//sets the force of gravity that will be applied to the objects in the scene
+	void SetGravity(const vec2 g) { gravity = g; };
 
+	//returns gravity vector of scene
+	vec2 GetGravity() const { return gravity; };
+
+	//sets the time step to the float value passed in 
 	void SetTimeStep(const float ts) { timeStep = ts; };
+
+	//returns the time step of the scene
 	float GetTimeStep() const { return timeStep; };
-
-	//checks for collisions between each shape type
-	//void CheckForCollision();
-
-	/*static bool plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2);
-	static bool plane2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);
-	static bool sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2);
-	static bool sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2);*/
 
 	//calls debug function of each actor
 	void DebugScene();

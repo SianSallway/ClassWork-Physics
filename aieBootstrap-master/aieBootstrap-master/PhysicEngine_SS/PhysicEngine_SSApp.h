@@ -37,5 +37,7 @@ protected:
 	Plane*				plane1;
 	Plane*				plane2;
 	Box*				box1;
+	Box*				box2;
+	Box*				box3;
 	Box*				newBox; 
 };

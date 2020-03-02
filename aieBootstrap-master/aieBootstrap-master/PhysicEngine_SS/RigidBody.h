@@ -72,4 +72,5 @@ protected:
 	float angularVelocity;
 	float elasticity;
 	float moment;										//moment of inertia
+	bool isKinematic;
 };
