@@ -85,35 +85,37 @@ bool PhysicEngine_SSApp::startup()
 	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
 	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
-	ball1 = new Sphere(vec2(-20, -35), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
-	//For different tutorial ->//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
-	ball2 = new Sphere(vec2(30, 0), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball3 = new Sphere(vec2(40, 20), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball4 = new Sphere(vec2(20, 0), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball2 = new Sphere(vec2(0, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball3 = new Sphere(vec2(18, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball4 = new Sphere(vec2(47, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball5 = new Sphere(vec2(70, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball6 = new Sphere(vec2(-45, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
 	plane1 = new Plane(vec2(3,5), -45, vec4(1, 1, 1, 1));
-	plane2 = new Plane(vec2(3,-3), 45, vec4(1, 1, 1, 1));
-	box1 = new Box(vec2(0, 0), vec2(0, 0), vec2(8, 4), vec4(1, 0, 0, 1));
-	box2 = new Box(vec2(-60, 30), vec2(0, 0), vec2(8, 4), vec4(1, 0, 0, 1));
-	box3 = new Box(vec2(60, 30), vec2(0, 0), vec2(8, 4), vec4(1, 0, 0, 1));
+	plane2 = new Plane(vec2(3,-5), 45, vec4(1, 1, 1, 1));
+	box1 = new Box(vec2(0, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
+	box2 = new Box(vec2(-60, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
+	box3 = new Box(vec2(60, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
+	box4 = new Box(vec2(35, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
+	box5= new Box(vec2(25, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
+	box6= new Box(vec2(-35, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
+	box7= new Box(vec2(-20, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
 
 	physicsScene->AddActor(ball1);
 	physicsScene->AddActor(ball2);
 	physicsScene->AddActor(ball3);
 	physicsScene->AddActor(ball4);
+	physicsScene->AddActor(ball5);
+	physicsScene->AddActor(ball6);
 	physicsScene->AddActor(plane1);
 	physicsScene->AddActor(plane2);
 	physicsScene->AddActor(box1);
 	physicsScene->AddActor(box2);
 	physicsScene->AddActor(box3);
-
-	//ball1->ApplyForce(glm::vec2(25, 5));
-	//ball2->ApplyForce(glm::vec2(0, 30));
-	//ball1->ApplyForceToActor(ball2, glm::vec2(2, 0));
-	
-	//ball1->ApplyForce(glm::vec2(80, 0));
-	//ball2->ApplyForce(glm::vec2(-80, 0));
-	//ball3->ApplyForce(glm::vec2(-80, 0));
-	//ball4->ApplyForce(glm::vec2(-80, -10));	
+	physicsScene->AddActor(box4);
+	physicsScene->AddActor(box5);
+	physicsScene->AddActor(box6);
+	physicsScene->AddActor(box7);
 
 	return true;
 }
@@ -186,7 +188,7 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 		//convert to world space
 		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
 
-		newBox = new Box(worldMousePos, vec2(0,0), vec2(8, 4), vec4(1, 0, 0, 1));
+		newBox = new Box(worldMousePos, vec2(0,0), vec2(8, 2), vec4(1, 0, 0, 1));
 		physicsScene->AddActor(newBox);
 	}
 
