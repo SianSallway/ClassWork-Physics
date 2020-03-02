@@ -39,10 +39,10 @@ void RigidBody::ApplyForce(vec2 force, vec2 pos)
 	{
 		angularVelocity += (force.y * pos.x + force.x * pos.y) / (moment);
 	}
-	/*else if (shapeID == BOX)
+	else if (shapeID == BOX)
 	{
 		angularVelocity += (force.y * pos.x - force.x * pos.y) / (moment);
-	}*/
+	}
 
 
 	//cout << "pos: " << pos.x << ", " << pos.y << endl;
@@ -54,6 +54,11 @@ void RigidBody::ApplyForce(vec2 force, vec2 pos)
 	actor2->ApplyForce(force);
 	ApplyForce(-force);
 }*/
+
+float RigidBody::GetKineticEnergy()
+{
+	return 0.5f * (mass * dot(velocity, velocity) + moment * angularVelocity * angularVelocity);
+}
 
 void RigidBody::FixedUpdate(glm::vec2 g, float ts)
 {

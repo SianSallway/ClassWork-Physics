@@ -15,13 +15,7 @@ PhysicEngine_SSApp::PhysicEngine_SSApp() {
 
 PhysicEngine_SSApp::~PhysicEngine_SSApp()
 {
-	/*delete ball1;
-	delete ball2;
-	delete ball3;
-	delete ball4;
-	delete newSphere;
-	delete plane1;
-	delete plane2;*/
+
 }
 
 void PhysicEngine_SSApp::SetupConinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity)
@@ -95,10 +89,10 @@ bool PhysicEngine_SSApp::startup()
 	//For different tutorial ->//ball2 = new Sphere(glm::vec2(ball1->GetPosition().x, (ball1->GetPosition().y) - 7), glm::vec2(0, 0), 0.5f, 4, 12, glm::vec4(0, 1, 0, 1));
 	ball2 = new Sphere(glm::vec2(30, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	ball3 = new Sphere(glm::vec2(40, 20), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
-	ball4 = new Sphere(glm::vec2(20, 50), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
+	ball4 = new Sphere(glm::vec2(20, 0), glm::vec2(0, 0), 4.0f, 4, 12, glm::vec4(1, 0, 0, 1));
 	plane1 = new Plane(vec2(3,5), -45, vec4(1, 1, 1, 1));
 	plane2 = new Plane(vec2(3,-3), 45, vec4(1, 1, 1, 1));
-	box1 = new Box(vec2(0, -30), vec2(0, 0), vec2(5, 10), vec4(1, 0, 0, 1));
+	box1 = new Box(vec2(0, -20), vec2(0, 0), vec2(8, 4), vec4(1, 0, 0, 1));
 
 	physicsScene->AddActor(ball1);
 	physicsScene->AddActor(ball2);
@@ -124,6 +118,13 @@ void PhysicEngine_SSApp::shutdown() {
 
 	delete m_font;
 	delete m_2dRenderer;
+	/*delete ball1;
+	delete ball2;
+	delete ball3;
+	delete ball4;
+	delete newSphere;
+	delete plane1;
+	delete plane2;*/
 }
 
 void PhysicEngine_SSApp::update(float deltaTime) {
@@ -136,6 +137,7 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	physicsScene->Update(deltaTime);
 	physicsScene->UpdateGizmos();
 
+	//Add a new sphere to the scene when the left mouse button is clicked
 	if (input->wasMouseButtonPressed(0))
 	{
 		//window dimensions
@@ -159,6 +161,29 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 
 		//cout << "Last item shape type: " << physicsScene->actors.back()->GetShapeType() << endl;
 		//newSphere->ApplyForce(vec2(0, -10));
+	}
+
+	//Add a new box to the scene when the right mouse button is clicked
+	if (input->wasMouseButtonPressed(1))
+	{
+		//window dimensions
+		vec2 winDim = vec2(aie::Application::getWindowWidth() * 0.5, aie::Application::getWindowHeight() * 0.5);
+
+		static float aspectRatio = winDim.x / winDim.y;
+
+		//mouse position
+		int mouseX;
+		int mouseY;
+		input->getMouseXY(&mouseX, &mouseY);
+
+		//convert mouse x & y to range -1 to 1
+		vec2 nMousePos = (vec2((float)mouseX, (float)mouseY) / winDim) - vec2(1.0, 1.0);
+
+		//convert to world space
+		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
+
+		newBox = new Box(worldMousePos, vec2(0,0), vec2(8, 4), vec4(1, 0, 0, 1));
+		physicsScene->AddActor(newBox);
 	}
 
 	//cout << "Vector size: " << physicsScene->actors.size() << endl;

@@ -9,7 +9,7 @@
 using namespace std;
 using namespace glm;
 
-PhysicsScene::PhysicsScene() : timeStep(0.01f), gravity(glm::vec2(0, 0))
+PhysicsScene::PhysicsScene() : timeStep(0.01f), gravity(vec2(0, 0))
 {
 }
 
@@ -97,8 +97,26 @@ void PhysicsScene::CheckForCollision()
 
 			if (collisionFuncPtr != nullptr)
 			{
+				//RigidBody* obj1R = dynamic_cast<RigidBody*>(object1);
+				//RigidBody* obj2R = dynamic_cast<RigidBody*>(object2);
+
+				//total kinetic engery before collision
+				//float kePre = obj1R->GetKineticEnergy() + obj2R->GetKineticEnergy();
+
 				//check if a collision occured
 				collisionFuncPtr(object1, object2);
+
+				//total kinetic engery after collision
+				//float kePost = obj1R->GetKineticEnergy() + obj2R->GetKineticEnergy();
+
+				//float deltaKe = kePost - kePre;
+
+				/*if (deltaKe < -0.01f || deltaKe > 0.01f)
+				{
+					cout << "Engery change detected" << endl;
+				}*/
+
+
 			}
 		}
 	}
@@ -113,13 +131,24 @@ bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 	if (sphere1 != nullptr && sphere2 != nullptr)
 	{
 		vec2 distance = sphere1->GetPosition() - sphere2->GetPosition();
-		float distanceMag = distance.x * distance.x + distance.y * distance.y;
+		float disLength = length(distance);
+		//float distanceMag = distance.x * distance.x + distance.y * distance.y;
+		float intersection = sphere1->GetRadius() + sphere2->GetRadius() - disLength;
 
-		float r = sphere1->GetRadius() + sphere2->GetRadius();
+		//float r = sphere1->GetRadius() + sphere2->GetRadius();
+		//distanceMag <= (r * r)
 
-		if (distanceMag <= (r * r))
+		if (intersection > 0)
 		{
+			//adding contact forces so objects don't overlap 
+			/*vec2 contactForce = 0.5f * (disLength - (sphere1->GetRadius() + sphere2->GetRadius())) * distance / disLength;
+
+			sphere1->SetPosition(sphere1->GetPosition() + contactForce);
+			sphere2->SetPosition(sphere2->GetPosition() - contactForce);
+			*/
+
 			sphere1->ResolveCollision(sphere2, 0.5f * (sphere1->GetPosition() + sphere2->GetPosition()));
+
 
 			return true;
 		}
@@ -183,6 +212,7 @@ bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 		vec2 contact = vec2(0, 0);
 		float contactVel = 0;
 		float radius = 0.5f * fminf(box->GetWidth(), box->GetHeight());
+		float penetration = 0;
 
 		//which side is the centre of mass (COM) on
 		vec2 planeOrigin = plane->GetNormal() * plane->GetDistance();
@@ -209,6 +239,22 @@ bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 					numContacts++;
 					contact += pos;
 					contactVel += velIntoPlane;
+
+					//adding contact forces
+					if (comFromPlane >= 0)
+					{
+						if (penetration > distanceFromPlane)
+						{
+							penetration = distanceFromPlane;
+						}
+						else
+						{
+							if (penetration < distanceFromPlane)
+							{
+								penetration = distanceFromPlane;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -234,6 +280,9 @@ bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 
 			//apply the force
 			box->ApplyForce(acceleration * mass0, localContact);
+
+			//contact forces
+			box->SetPosition(box->GetPosition() - plane->GetNormal() * penetration);
 		}
 	}
 	else if (box == nullptr)
@@ -242,12 +291,13 @@ bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 	}
 	else if (plane == nullptr)
 	{
-		cout << "Plabe cast unsuccessful" << endl;
+		cout << "Plane cast unsuccessful" << endl;
 	}
 	else if (box == nullptr && plane == nullptr)
 	{
 		cout << "All casts unsuccessful" << endl;
 	}
+
 	return false;
 }
 

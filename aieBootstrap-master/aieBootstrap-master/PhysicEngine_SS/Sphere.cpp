@@ -12,7 +12,7 @@ Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMas
 	colour = objectColour;
 	segments = seg;
 	moment = 0.5f * mass * radius * radius;
-	cout << "moment:" << moment << endl;
+	//cout << "moment:" << moment << endl;
 }
 
 void Sphere::MakeGizmo()
