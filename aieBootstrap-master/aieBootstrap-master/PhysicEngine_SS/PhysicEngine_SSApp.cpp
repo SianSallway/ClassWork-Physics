@@ -85,12 +85,12 @@ bool PhysicEngine_SSApp::startup()
 	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
 	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
-	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball2 = new Sphere(vec2(0, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball3 = new Sphere(vec2(18, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball4 = new Sphere(vec2(47, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball5 = new Sphere(vec2(70, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball6 = new Sphere(vec2(-45, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball2 = new Sphere(vec2(0, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball3 = new Sphere(vec2(18, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball4 = new Sphere(vec2(47, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball5 = new Sphere(vec2(70, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball6 = new Sphere(vec2(-45, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
 	plane1 = new Plane(vec2(3,5), -45, vec4(1, 1, 1, 1));
 	plane2 = new Plane(vec2(3,-5), 45, vec4(1, 1, 1, 1));
 	box1 = new Box(vec2(-20, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
@@ -123,22 +123,21 @@ void PhysicEngine_SSApp::shutdown() {
 
 	delete m_font;
 	delete m_2dRenderer;
-	/*delete ball1;
+	delete ball1;
 	delete ball2;
 	delete ball3;
 	delete ball4;
 	delete ball5;
 	delete ball6;
 	delete newSphere;
-	delete plane1;
-	delete plane2;
 	delete box1;
 	delete box2;
 	delete box3;
 	delete box4;
 	delete box5;
 	delete box6;
-	delete box7;	*/
+	delete plane1;
+	delete plane2;
 }
 
 void PhysicEngine_SSApp::update(float deltaTime) {
@@ -170,7 +169,7 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 		//convert to world space
 		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
 
-		newSphere = new Sphere(worldMousePos, vec2(0, 0), 3.0f, 4, 12, vec4(0, 1, 0, 1));
+		newSphere = new Sphere(worldMousePos, vec2(0, 0), 2.0f, 4, 12, vec4(0, 1, 0, 1));
 		physicsScene->AddActor(newSphere);
 	}
 
@@ -201,17 +200,19 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	{
 		physicsScene->RemoveActor();
 	}
-
-	/*if (input->wasKeyPressed(aie::INPUT_KEY_B))
-	{
-		//physicsScene->RemoveActor();
-	}*/
-
-	/*if (input->wasKeyPressed(aie::INPUT_KEY_DELETE))
-	{
-		physicsScene->RemoveAll();
-	}*/
 	
+	//reverse the force of gravity when the G key is held down
+	if (input->isKeyDown(aie::INPUT_KEY_G))
+	{
+		physicsScene->SetGravity(vec2(0, 20));
+	}
+	
+	//restore gravity when the G key is released
+	if (input->isKeyUp(aie::INPUT_KEY_G))
+	{
+		physicsScene->SetGravity(vec2(0, -20));
+	}
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();

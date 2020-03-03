@@ -138,28 +138,6 @@ void RigidBody::ResolveCollision(RigidBody* actor2, vec2 contact, vec2* collisio
 	}
 }
 
-void RigidBody::ApplyContactForces(RigidBody* body1, RigidBody* body2, vec2 norm, float pen)
-{
-	float body1Factor;
-
-	if (body1->IsKinematic())
-	{
-		body1Factor = 0;
-	}
-
-	if (body2->IsKinematic())
-	{
-		body1Factor = 1.0f;
-	}
-	else
-	{
-		body1Factor = 0.5f;
-	}
-
-	body1->SetPosition(body1->GetPosition() - body1Factor * norm * pen);
-	body2->SetPosition(body2->GetPosition() + (1 - body1Factor) * norm * pen);
-}
-
 void RigidBody::Debug()
 {
 

@@ -63,8 +63,6 @@ public:
 
 	bool IsKinematic() { return isKinematic == true; }
 
-	void ApplyContactForces(RigidBody* body1, RigidBody* body2, vec2 norm, float pen);
-
 protected:
 
 	vec2 position;										//x and y axis position of rigidbody in world space

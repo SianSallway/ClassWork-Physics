@@ -68,56 +68,13 @@ void PhysicsScene::RemoveActor()
 	}	
 }
 
-
-bool PhysicsScene::isRemovalble(int j)
+/*void PhysicsScene::RemoveAll()
 {
-
-		if (actors[j]->GetShapeType() == SPHERE || actors[j]->GetShapeType() == BOX)
-		{
-			return true;
-		}
-		else if (actors[j]->GetShapeType() == PLANE)
-		{
-			return false;
-		}
-
-
-	
-}
-
-void PhysicsScene::RemoveAll()
-{
-	//bool removableShape;
-	for (int i = 0; 1 < actors.size(); i++)
+	if (actors.back()->GetShapeType() != PLANE)
 	{
-		//remove(actors.begin(), actors.end(), isRemovalble(i));
+		actors.pop_back();
 	}
-
-
-}
-
-void PhysicsScene::ApplyContactForces(RigidBody* body1, RigidBody* body2, vec2 norm, float pen)
-{
-	float body1Factor;
-
-	if (body1->IsKinematic())
-	{
-		body1Factor = 0;
-	}
-
-	if (body2->IsKinematic())
-	{
-		body1Factor = 1.0f;
-	}
-	else
-	{
-		body1Factor = 0.5f;
-	}
-
-	body1->SetPosition(body1->GetPosition() - body1Factor * norm * pen);
-	body2->SetPosition(body2->GetPosition() + (1 - body1Factor) * norm * pen);
-}
-
+}*/
 
 //function pointer for collisions
 typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
@@ -150,26 +107,8 @@ void PhysicsScene::CheckForCollision()
 
 			if (collisionFuncPtr != nullptr)
 			{
-				/*RigidBody* obj1R = dynamic_cast<RigidBody*>(object1);
-				RigidBody* obj2R = dynamic_cast<RigidBody*>(object2);
-
-				//total kinetic engery before collision
-				float kePre = obj1R->GetKineticEnergy() + obj2R->GetKineticEnergy();*/
-
 				//check if a collision occured
 				collisionFuncPtr(object1, object2);
-
-				//total kinetic engery after collision
-				/*float kePost = obj1R->GetKineticEnergy() + obj2R->GetKineticEnergy();
-
-				float deltaKe = kePost - kePre;
-
-				if (deltaKe < -0.01f || deltaKe > 0.01f)
-				{
-					cout << "Engery change detected" << endl;
-				}*/
-
-
 			}
 		}
 	}
