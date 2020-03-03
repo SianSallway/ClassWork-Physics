@@ -85,7 +85,7 @@ bool PhysicEngine_SSApp::startup()
 	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
 	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
-	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 2.0f, 4, 12, vec4(128, 0, 128, 1));
 	ball2 = new Sphere(vec2(0, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
 	ball3 = new Sphere(vec2(18, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
 	ball4 = new Sphere(vec2(47, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
