@@ -1,6 +1,7 @@
 #pragma once
 #include <glm\ext.hpp>
 #include "PhysicsObject.h"
+#include "RigidBody.h"
 #include <iostream>
 #include <vector>
 
@@ -22,8 +23,12 @@ public:
 	void AddActor(PhysicsObject* actor);
 	
 	//removes PhysicsObject pointer from the end of the actors vector
-	void RemoveActor(PhysicsObject* actor);
-	//void RemoveActor();
+	void RemoveActor();
+	
+	bool isRemovalble(int j);
+
+	//Removes all physics objects from the scene
+	void RemoveAll();
 	
 	//updates physical simulation, calls update function of each actor, handles collison detection and response 
 	void Update(float deltaTime);
@@ -72,6 +77,8 @@ public:
 
 	//checks for collisions between boxes, if true resolves collision 
 	static bool box2Box(PhysicsObject* obj1, PhysicsObject* obj2);
+
+	void ApplyContactForces(RigidBody* body1, RigidBody* body2, vec2 norm, float pen);
 
 	//calls debug function of each actor
 	void DebugScene();

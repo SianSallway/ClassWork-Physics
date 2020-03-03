@@ -5,6 +5,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Box.h"
+#include <algorithm>
 
 using namespace std;
 using namespace glm;
@@ -58,18 +59,65 @@ void PhysicsScene::AddActor(PhysicsObject* actor)
 	actors.push_back(actor);
 }
 
-//removes PhysicsObject pointer from the end of the actors vector
-void PhysicsScene::RemoveActor(PhysicsObject* actor)
+//removes physics objects that were added my the player one by one
+void PhysicsScene::RemoveActor()
 {
-	for (int i = 0; 1 < actors.size(); i++)
+	if (actors.back()->GetShapeType() != PLANE)
 	{
-		if (actors[i]->GetShapeType() == SPHERE)
+		actors.pop_back();
+	}	
+}
+
+
+bool PhysicsScene::isRemovalble(int j)
+{
+
+		if (actors[j]->GetShapeType() == SPHERE || actors[j]->GetShapeType() == BOX)
 		{
-			
+			return true;
+		}
+		else if (actors[j]->GetShapeType() == PLANE)
+		{
+			return false;
 		}
 
-	}
+
+	
 }
+
+void PhysicsScene::RemoveAll()
+{
+	//bool removableShape;
+	for (int i = 0; 1 < actors.size(); i++)
+	{
+		//remove(actors.begin(), actors.end(), isRemovalble(i));
+	}
+
+
+}
+
+void PhysicsScene::ApplyContactForces(RigidBody* body1, RigidBody* body2, vec2 norm, float pen)
+{
+	float body1Factor;
+
+	if (body1->IsKinematic())
+	{
+		body1Factor = 0;
+	}
+
+	if (body2->IsKinematic())
+	{
+		body1Factor = 1.0f;
+	}
+	else
+	{
+		body1Factor = 0.5f;
+	}
+
+	body1->SetPosition(body1->GetPosition() - body1Factor * norm * pen);
+	body2->SetPosition(body2->GetPosition() + (1 - body1Factor) * norm * pen);
+}
+
 
 //function pointer for collisions
 typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
@@ -96,28 +144,27 @@ void PhysicsScene::CheckForCollision()
 			int shapeID1 = object1->GetShapeType();
 			int shapeID2 = object2->GetShapeType();
 
-			//FIX
 			//use function pointers
 			int functionIndex = (shapeID1 * SHAPE_COUNT) + shapeID2;
 			fn collisionFuncPtr = collisionFuncArray[functionIndex];
 
 			if (collisionFuncPtr != nullptr)
 			{
-				//RigidBody* obj1R = dynamic_cast<RigidBody*>(object1);
-				//RigidBody* obj2R = dynamic_cast<RigidBody*>(object2);
+				/*RigidBody* obj1R = dynamic_cast<RigidBody*>(object1);
+				RigidBody* obj2R = dynamic_cast<RigidBody*>(object2);
 
 				//total kinetic engery before collision
-				//float kePre = obj1R->GetKineticEnergy() + obj2R->GetKineticEnergy();
+				float kePre = obj1R->GetKineticEnergy() + obj2R->GetKineticEnergy();*/
 
 				//check if a collision occured
 				collisionFuncPtr(object1, object2);
 
 				//total kinetic engery after collision
-				//float kePost = obj1R->GetKineticEnergy() + obj2R->GetKineticEnergy();
+				/*float kePost = obj1R->GetKineticEnergy() + obj2R->GetKineticEnergy();
 
-				//float deltaKe = kePost - kePre;
+				float deltaKe = kePost - kePre;
 
-				/*if (deltaKe < -0.01f || deltaKe > 0.01f)
+				if (deltaKe < -0.01f || deltaKe > 0.01f)
 				{
 					cout << "Engery change detected" << endl;
 				}*/
@@ -147,14 +194,12 @@ bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 		if (intersection > 0)
 		{
 			//adding contact forces so objects don't overlap 
-			/*vec2 contactForce = 0.5f * (disLength - (sphere1->GetRadius() + sphere2->GetRadius())) * distance / disLength;
+			vec2 contactForce = 0.5f * (disLength - (sphere1->GetRadius() + sphere2->GetRadius())) * distance / disLength;
 
-			sphere1->SetPosition(sphere1->GetPosition() + contactForce);
-			sphere2->SetPosition(sphere2->GetPosition() - contactForce);
-			*/
-
+			sphere1->SetPosition(sphere1->GetPosition() - contactForce);
+			sphere2->SetPosition(sphere2->GetPosition() + contactForce);
+			
 			sphere1->ResolveCollision(sphere2, 0.5f * (sphere1->GetPosition() + sphere2->GetPosition()));
-
 
 			return true;
 		}
@@ -380,11 +425,17 @@ bool PhysicsScene::box2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 
 		if (numContacts > 0)
 		{
-			//avg and convert back into worl coords
+			//avg and convert back into world coords
 			contact = box->GetPosition() + (1.0f / numContacts) *
 				(box->GetLocalX() * contact.x + box->GetLocalY() * contact.y);
 
 			box->ResolveCollision(sphere, contact, direction);
+
+			float pen = sphere->GetRadius() - length(contact - sphere->GetPosition());
+
+			vec2 normal = normalize(sphere->GetPosition() - contact);
+
+			sphere->SetPosition(sphere->GetPosition() + normal * pen);
 		}
 
 		delete direction;

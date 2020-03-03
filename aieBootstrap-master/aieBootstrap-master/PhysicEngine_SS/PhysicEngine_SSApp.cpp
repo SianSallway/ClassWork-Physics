@@ -85,21 +85,20 @@ bool PhysicEngine_SSApp::startup()
 	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
 	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
-	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball2 = new Sphere(vec2(0, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball3 = new Sphere(vec2(18, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball4 = new Sphere(vec2(47, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball5 = new Sphere(vec2(70, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball6 = new Sphere(vec2(-45, 50), vec2(0, 0), 4.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball2 = new Sphere(vec2(0, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball3 = new Sphere(vec2(18, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball4 = new Sphere(vec2(47, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball5 = new Sphere(vec2(70, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
+	ball6 = new Sphere(vec2(-45, 50), vec2(0, 0), 3.0f, 4, 12, vec4(1, 0, 0, 1));
 	plane1 = new Plane(vec2(3,5), -45, vec4(1, 1, 1, 1));
 	plane2 = new Plane(vec2(3,-5), 45, vec4(1, 1, 1, 1));
-	box1 = new Box(vec2(0, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
+	box1 = new Box(vec2(-20, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
 	box2 = new Box(vec2(-60, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
 	box3 = new Box(vec2(60, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
 	box4 = new Box(vec2(35, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
 	box5= new Box(vec2(25, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
 	box6= new Box(vec2(-35, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
-	box7= new Box(vec2(-20, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
 
 	physicsScene->AddActor(ball1);
 	physicsScene->AddActor(ball2);
@@ -107,15 +106,15 @@ bool PhysicEngine_SSApp::startup()
 	physicsScene->AddActor(ball4);
 	physicsScene->AddActor(ball5);
 	physicsScene->AddActor(ball6);
-	physicsScene->AddActor(plane1);
-	physicsScene->AddActor(plane2);
 	physicsScene->AddActor(box1);
 	physicsScene->AddActor(box2);
 	physicsScene->AddActor(box3);
 	physicsScene->AddActor(box4);
 	physicsScene->AddActor(box5);
 	physicsScene->AddActor(box6);
-	physicsScene->AddActor(box7);
+	physicsScene->AddActor(plane1);
+	physicsScene->AddActor(plane2);
+
 
 	return true;
 }
@@ -128,9 +127,18 @@ void PhysicEngine_SSApp::shutdown() {
 	delete ball2;
 	delete ball3;
 	delete ball4;
+	delete ball5;
+	delete ball6;
 	delete newSphere;
 	delete plane1;
-	delete plane2;*/
+	delete plane2;
+	delete box1;
+	delete box2;
+	delete box3;
+	delete box4;
+	delete box5;
+	delete box6;
+	delete box7;	*/
 }
 
 void PhysicEngine_SSApp::update(float deltaTime) {
@@ -162,11 +170,8 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 		//convert to world space
 		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
 
-		newSphere = new Sphere(worldMousePos, vec2(0, 0), 4.0f, 4, 12, vec4(0, 1, 0, 1));
+		newSphere = new Sphere(worldMousePos, vec2(0, 0), 3.0f, 4, 12, vec4(0, 1, 0, 1));
 		physicsScene->AddActor(newSphere);
-
-		//cout << "Last item shape type: " << physicsScene->actors.back()->GetShapeType() << endl;
-		//newSphere->ApplyForce(vec2(0, -10));
 	}
 
 	//Add a new box to the scene when the right mouse button is clicked
@@ -188,21 +193,24 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 		//convert to world space
 		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
 
-		newBox = new Box(worldMousePos, vec2(0,0), vec2(8, 2), vec4(1, 0, 0, 1));
+		newBox = new Box(worldMousePos, vec2(0,0), vec2(8, 2), vec4(0, 1, 0, 1));
 		physicsScene->AddActor(newBox);
 	}
 
-	if (input->wasKeyPressed(aie::INPUT_KEY_S))
+	if (input->wasKeyPressed(aie::INPUT_KEY_DELETE))
 	{
-		//physicsScene->RemoveActor();
+		physicsScene->RemoveActor();
 	}
 
-	if (input->wasKeyPressed(aie::INPUT_KEY_B))
+	/*if (input->wasKeyPressed(aie::INPUT_KEY_B))
 	{
 		//physicsScene->RemoveActor();
-	}
+	}*/
 
-	//cout << "Vector size: " << physicsScene->actors.size() << endl;
+	/*if (input->wasKeyPressed(aie::INPUT_KEY_DELETE))
+	{
+		physicsScene->RemoveAll();
+	}*/
 	
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))

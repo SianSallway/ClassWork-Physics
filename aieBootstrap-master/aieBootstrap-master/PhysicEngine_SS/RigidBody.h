@@ -37,6 +37,8 @@ public:
 	
 	//sets the velocity to the vector 2 parameter passed in
 	void SetVelocity(glm::vec2 newVel) { velocity = newVel; }
+
+	void SetPosition(vec2 newpos) { position = newpos; }
 	
 	//returns rotation value of rigidbody
 	float GetRotation() { return rotation; }
@@ -58,6 +60,10 @@ public:
 
 	//sets the angular drag to the float parameter passed in
 	void SetAngularDrag(float angDrag) { angularDrag = angDrag; };
+
+	bool IsKinematic() { return isKinematic == true; }
+
+	void ApplyContactForces(RigidBody* body1, RigidBody* body2, vec2 norm, float pen);
 
 protected:
 

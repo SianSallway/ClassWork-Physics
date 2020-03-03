@@ -44,6 +44,5 @@ protected:
 	Box*				box4;
 	Box*				box5;
 	Box*				box6;
-	Box*				box7;
 	Box*				newBox; 
 };

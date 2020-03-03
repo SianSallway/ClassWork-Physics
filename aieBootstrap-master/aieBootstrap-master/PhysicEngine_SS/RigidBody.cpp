@@ -88,14 +88,6 @@ void RigidBody::FixedUpdate(glm::vec2 g, float ts)
 			angularVelocity = 0;
 		}
 	}
-
-	/*cout << "g: " << g.x << ", " << g.y << endl;
-	cout << "mass: " << mass << endl;
-	cout << "position: " << position.x << ", " << position.y << endl;
-	cout << "velocity: " << velocity.x << ", " << velocity.y << endl;
-	cout << "rotation: " << rotation << endl;
-	cout << "linearDrag: " << linearDrag << endl;*/
-	//cout << "anguarVelocity: " << angularVelocity << endl;
 }
 
 /*void RigidBody::ResolveCollision(RigidBody* actor2)
@@ -144,6 +136,28 @@ void RigidBody::ResolveCollision(RigidBody* actor2, vec2 contact, vec2* collisio
 		ApplyForce(-force, contact - position);
 		actor2->ApplyForce(force, contact - actor2->GetPosition());
 	}
+}
+
+void RigidBody::ApplyContactForces(RigidBody* body1, RigidBody* body2, vec2 norm, float pen)
+{
+	float body1Factor;
+
+	if (body1->IsKinematic())
+	{
+		body1Factor = 0;
+	}
+
+	if (body2->IsKinematic())
+	{
+		body1Factor = 1.0f;
+	}
+	else
+	{
+		body1Factor = 0.5f;
+	}
+
+	body1->SetPosition(body1->GetPosition() - body1Factor * norm * pen);
+	body2->SetPosition(body2->GetPosition() + (1 - body1Factor) * norm * pen);
 }
 
 void RigidBody::Debug()
