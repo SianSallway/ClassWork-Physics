@@ -6,7 +6,7 @@
 using namespace std;
 using namespace glm;
 
-Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMass, float seg, glm::vec4 objectColour) : RigidBody(SPHERE, pos, vel, 0, sphereMass)
+Sphere::Sphere(glm::vec2 pos, glm::vec2 vel, float sphereRadius, float sphereMass, float seg, glm::vec4 objectColour, bool kinematic) : RigidBody(SPHERE, pos, vel, 0, sphereMass, kinematic)
 {
 	radius = sphereRadius;
 	colour = objectColour;

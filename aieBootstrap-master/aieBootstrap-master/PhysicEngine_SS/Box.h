@@ -13,7 +13,7 @@ class Box : public RigidBody
 public:
 
 	//constructor
-	Box(vec2 pos, vec2 vel, vec2 boxExtents, vec4 objectColour);
+	Box(vec2 pos, vec2 vel, vec2 boxExtents, vec4 objectColour, bool kinematic);
 
 	//de-constructor 
 	~Box() {}

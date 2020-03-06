@@ -21,16 +21,15 @@ public:
 
 	//adds PhysicsObject pointer to the end of the actors vector
 	void AddActor(PhysicsObject* actor);
-	
+
 	//removes PhysicsObject pointer from the end of the actors vector
 	void RemoveActor();
 
-	//Removes all physics objects from the scene
-	//void RemoveAll();
-	
+	void RemoveActor(PhysicsObject* actor);
+
 	//updates physical simulation, calls update function of each actor, handles collison detection and response 
 	void Update(float deltaTime);
-	
+
 	//handles the drawing of physical objects
 	void UpdateGizmos();
 
@@ -81,10 +80,10 @@ public:
 
 	float GetActorsAmount() { return actors.size(); }
 
+	vector<PhysicsObject*> actors;									//stores all physical objects in scene 
+
 protected:
 
 	vec2 gravity;													//stores the gravitational force in the scene
 	float timeStep;													//stores time step
-	vector<PhysicsObject*> actors;									//stores all physical objects in scene 
-
 };

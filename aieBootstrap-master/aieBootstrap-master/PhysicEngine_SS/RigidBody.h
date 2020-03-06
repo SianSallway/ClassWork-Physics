@@ -11,7 +11,7 @@ class RigidBody : public PhysicsObject
 public:
 
 	//constructor
-	RigidBody(ShapeType id, vec2 pos, vec2 vel, float objectRotation, float objectMass);
+	RigidBody(ShapeType id, vec2 pos, vec2 vel, float objectRotation, float objectMass, bool kinematic);
 
 	//de-constructor
 	~RigidBody();
@@ -68,13 +68,13 @@ protected:
 	vec2 position;										//x and y axis position of rigidbody in world space
 	vec2 velocity;										//x and y axis velocity of rigidbody
 	float mass;											//rigidbody mass
-	float rotation;										//rigidbody rotation value used for rotational force
-	float linearDrag;
-	float angularDrag;
-	const float  MIN_LINEAR_THRESHOLD = 0.1f;
-	const float  MIN_ROTATION_THRESHOLD = 0.01f;
-	float angularVelocity;
-	float elasticity;
+	float rotation;										//stores how much the object has rotated
+	float linearDrag;									//stores linear drag that is applied to the object each frame
+	float angularDrag;									//aka rotational drag that is applied to the object each frame
+	const float  MIN_LINEAR_THRESHOLD = 0.1f;			//linear threshold for stability
+	const float  MIN_ROTATION_THRESHOLD = 0.01f;		//rotation threshold for stability
+	float angularVelocity;								//stores the objects angular velocity
+	float elasticity;									//stores objects elasticity
 	float moment;										//moment of inertia
-	bool isKinematic;
+	bool isKinematic;									//stores whether or not the object is kinematic
 };

@@ -5,7 +5,7 @@
 using namespace std;
 using namespace glm;
 
-RigidBody::RigidBody(ShapeType id, glm::vec2 pos, glm::vec2 vel, float objectRotation, float objectMass)
+RigidBody::RigidBody(ShapeType id, glm::vec2 pos, glm::vec2 vel, float objectRotation, float objectMass, bool kinematic)
 {
 	position = pos;
 	velocity = vel;
@@ -16,9 +16,12 @@ RigidBody::RigidBody(ShapeType id, glm::vec2 pos, glm::vec2 vel, float objectRot
 	angularDrag = 0.3f;
 	elasticity = 0.9f;
 	angularVelocity = 0.01f;
-	isKinematic = true;
 
-	if (shapeID == BOX)
+	if (kinematic == true)
+	{
+		isKinematic = true;
+	}
+	else
 	{
 		isKinematic = false;
 	}
@@ -28,13 +31,6 @@ RigidBody::~RigidBody()
 {
 
 }
-
-/*void RigidBody::ApplyForce(vec2 force)
-{
-	glm::vec2 acceleration = force / mass;
-
-	velocity += acceleration;
-}*/
 
 void RigidBody::ApplyForce(vec2 force, vec2 pos)
 {
@@ -49,17 +45,7 @@ void RigidBody::ApplyForce(vec2 force, vec2 pos)
 	{
 		angularVelocity += (force.y * pos.x - force.x * pos.y) / (moment);
 	}
-
-
-	//cout << "pos: " << pos.x << ", " << pos.y << endl;
-	//cout << "force: " << force.x << ", " << force.y << endl;
 }
-
-/*void RigidBody::ApplyForceToActor(RigidBody* actor2, vec2 force)
-{
-	actor2->ApplyForce(force);
-	ApplyForce(-force);
-}*/
 
 float RigidBody::GetKineticEnergy()
 {
@@ -90,23 +76,9 @@ void RigidBody::FixedUpdate(glm::vec2 g, float ts)
 	}
 }
 
-/*void RigidBody::ResolveCollision(RigidBody* actor2)
-{
-	vec2 normal = normalize(actor2->GetPosition() - position);
-	vec2 relVel = actor2->GetVelocity() - velocity;
-
-	elasticity = (elasticity + actor2->GetElasticity()) / 2.0f;
-	float j = dot(-(1 + elasticity) * (relVel), normal) / dot(normal, normal * ((1 / mass) + (1 / actor2->GetMass())));
-
-	vec2 force = normal * j;
-
-	ApplyForceToActor(actor2, force);
-}*/
-
 void RigidBody::ResolveCollision(RigidBody* actor2, vec2 contact, vec2* collisionNormal)
 {
 	//find vector between their centres, or use provided dir of force and normalize it
-
 	vec2 normal = normalize(collisionNormal ? *collisionNormal : actor2->GetPosition() - position);
 
 	//get vector perpendicular to collisionNormal
@@ -119,6 +91,7 @@ void RigidBody::ResolveCollision(RigidBody* actor2, vec2 contact, vec2* collisio
 
 	//vel of contact point on this obj
 	float v1 = dot(velocity, normal) - r2 * angularVelocity;
+
 	//vel of contact point on actor2
 	float v2 = dot(actor2->GetVelocity(), normal) + r2 * actor2->angularVelocity;
 

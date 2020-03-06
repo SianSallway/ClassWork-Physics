@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Box::Box(vec2 pos, vec2 vel, vec2 boxExtents, vec4 objectColour) : RigidBody(BOX, pos, vel, 0, mass)
+Box::Box(vec2 pos, vec2 vel, vec2 boxExtents, vec4 objectColour, bool kinematic) : RigidBody(BOX, pos, vel, 0, mass, kinematic)
 {
 	position = pos;
 	velocity = vel;

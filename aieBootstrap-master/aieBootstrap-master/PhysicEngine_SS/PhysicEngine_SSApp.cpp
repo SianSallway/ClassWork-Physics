@@ -18,54 +18,7 @@ PhysicEngine_SSApp::~PhysicEngine_SSApp()
 
 }
 
-void PhysicEngine_SSApp::SetupConinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity)
-{
-	float t = 0;
-	float timeStep = 0.1f;
-	float radius = 1.0f;
-	int segments = 12;
-	glm::vec4 colour = glm::vec4(1, 1, 0, 1);
-
-	while (t <= 5)
-	{
-		//calculate the x, y position of the projectile at time t
-		float x;
-		float y;
-		
-		//kinematic formulas fro x and y axis, changing the inclination angle over time
-		x = startPos.x + (t * cos(inclination) * speed);
-		y = startPos.y + (t * sin(inclination) * speed) + 0.5 * gravity * pow(t, 2);
-
-		aie::Gizmos::add2DCircle(glm::vec2(x, y), radius, segments, colour);
-		//physicsScene->AddActor(new Sphere(vec2(x, y), vec2(0, speed), radius, 0, segments, vec4(1, 0, 0, 1)));
-		t += timeStep;
-	}
-}
-
-void PhysicEngine_SSApp::SetupNumericalIntergration(vec2 startPos, vec2 velocity, vec2 force, float inclination)
-{
-	float t = 0;
-	float dt = physicsScene->GetTimeStep();
-	float radius = 1.0f;
-	int segments = 12;
-	vec4 colour = glm::vec4(1, 0, 0, 1);
-	float mass = 1;
-	float x;
-	float y;
-
-	if (t <= dt)
-	{
-		x = startPos.x + (t * cos(inclination) * velocity.x) * dt;
-		y = startPos.y + (t * sin(inclination) * velocity.y) + 0.5 * force.y * pow(t, 2);
-
-		velocity = velocity + (force / mass) * dt;
-		t += dt;
-
-		track = new Sphere(vec2(x, y), velocity, radius, mass, 12, vec4(1, 0, 0, 1));
-		physicsScene->AddActor(track);
-	}
-}
-
+//GitHub
 bool PhysicEngine_SSApp::startup() 
 {
 	// increase the 2d line count to maximize the number of objects we can draw
@@ -85,20 +38,20 @@ bool PhysicEngine_SSApp::startup()
 	//SetupConinuousDemo(glm::vec2(-40, 0), 45, 30, -10); 
 	//SetupNumericalIntergration(vec2(-40, 0), vec2(30, 30), vec2(0, -10), 45);
 	
-	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 2.0f, 4, 12, vec4(128, 0, 128, 1));
-	ball2 = new Sphere(vec2(0, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball3 = new Sphere(vec2(18, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball4 = new Sphere(vec2(47, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball5 = new Sphere(vec2(70, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
-	ball6 = new Sphere(vec2(-45, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1));
-	plane1 = new Plane(vec2(3,5), -45, vec4(1, 1, 1, 1));
-	plane2 = new Plane(vec2(3,-5), 45, vec4(1, 1, 1, 1));
-	box1 = new Box(vec2(-20, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
-	box2 = new Box(vec2(-60, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
-	box3 = new Box(vec2(60, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
-	box4 = new Box(vec2(35, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
-	box5= new Box(vec2(25, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
-	box6= new Box(vec2(-35, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1));
+	ball1 = new Sphere(vec2(-23, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1), true);
+	ball2 = new Sphere(vec2(0, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1), true);
+	ball3 = new Sphere(vec2(18, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1), true);
+	ball4 = new Sphere(vec2(47, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1), true);
+	ball5 = new Sphere(vec2(70, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1), true);
+	ball6 = new Sphere(vec2(-45, 50), vec2(0, 0), 2.0f, 4, 12, vec4(1, 0, 0, 1), true);
+	plane1 = new Plane(vec2(3, 5), -45, vec4(1, 1, 1, 1));
+	plane2 = new Plane(vec2(3, -5), 45, vec4(1, 1, 1, 1));
+	box1 = new Box(vec2(-20, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1), false);
+	box2 = new Box(vec2(-60, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1), false);
+	box3 = new Box(vec2(60, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1), false);
+	box4 = new Box(vec2(35, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1), false);
+	box5 = new Box(vec2(25, 30), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1), false);
+	box6 = new Box(vec2(-35, 0), vec2(0, 0), vec2(8, 2), vec4(1, 0, 0, 1), false);
 
 	physicsScene->AddActor(ball1);
 	physicsScene->AddActor(ball2);
@@ -146,12 +99,12 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 	aie::Input* input = aie::Input::getInstance();
 
 	aie::Gizmos::clear();
-	
+
 	physicsScene->Update(deltaTime);
 	physicsScene->UpdateGizmos();
 
-	//Add a new sphere to the scene when the left mouse button is clicked
-	if (input->wasMouseButtonPressed(0))
+	//Add a new sphere to the scene when the 'S' key is pressed
+	if (input->wasKeyPressed(aie::INPUT_KEY_S))
 	{
 		//window dimensions
 		vec2 winDim = vec2(aie::Application::getWindowWidth() * 0.5, aie::Application::getWindowHeight() * 0.5);
@@ -169,11 +122,34 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 		//convert to world space
 		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
 
-		newSphere = new Sphere(worldMousePos, vec2(0, 0), 2.0f, 4, 12, vec4(0, 1, 0, 1));
+		newSphere = new Sphere(worldMousePos, vec2(0, 0), 2.0f, 4, 12, vec4(128, 0, 128, 1), true);
 		physicsScene->AddActor(newSphere);
 	}
 
-	//Add a new box to the scene when the right mouse button is clicked
+	//Add a new box to the scene when the 'B' key is pressed
+	if (input->wasKeyPressed(aie::INPUT_KEY_B))
+	{
+		//window dimensions
+		vec2 winDim = vec2(aie::Application::getWindowWidth() * 0.5, aie::Application::getWindowHeight() * 0.5);
+
+		static float aspectRatio = winDim.x / winDim.y;
+
+		//mouse position
+		int mouseX;
+		int mouseY;
+		input->getMouseXY(&mouseX, &mouseY);
+
+		//convert mouse x & y to range -1 to 1
+		vec2 nMousePos = (vec2((float)mouseX, (float)mouseY) / winDim) - vec2(1.0, 1.0);
+
+		//convert to world space
+		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
+
+		newBox = new Box(worldMousePos, vec2(0, 0), vec2(8, 2), vec4(128, 0, 128, 1), false);
+		physicsScene->AddActor(newBox);
+	}
+
+	//delete the object at the position of the right mouse click
 	if (input->wasMouseButtonPressed(1))
 	{
 		//window dimensions
@@ -192,21 +168,46 @@ void PhysicEngine_SSApp::update(float deltaTime) {
 		//convert to world space
 		vec2 worldMousePos = (vec2(nMousePos.x * 100, nMousePos.y * 100 / aspectRatio));
 
-		newBox = new Box(worldMousePos, vec2(0,0), vec2(8, 2), vec4(0, 1, 0, 1));
-		physicsScene->AddActor(newBox);
+		for (int i = 0; i < physicsScene->GetActorsAmount(); i++)
+		{
+			RigidBody* actor = dynamic_cast<RigidBody*>(physicsScene->actors[i]);
+
+			//cout << "shape type: " << actor->GetShapeType() << endl;
+			//cout << "shape pos: " << actor->GetPosition().x << ", " << actor->GetPosition().y << endl;
+
+			if (physicsScene->actors[i]->GetShapeType() == SPHERE)
+			{
+				Sphere* sphere = dynamic_cast<Sphere*>(physicsScene->actors[i]);
+
+				//check if mouse click was anywhere on the sphere
+				vec2 sphereZone = sphere->GetPosition() + sphere->GetRadius();
+
+				if (worldMousePos == sphereZone)
+				{
+					physicsScene->RemoveActor(physicsScene->actors[i]);
+				}
+			}
+
+			if (actor != nullptr && actor->GetPosition() == worldMousePos)
+			{
+				physicsScene->RemoveActor(physicsScene->actors[i]);
+				//cout << "shape type: " << physicsScene->actors[i]->GetShapeType() << endl;
+			}
+		}
 	}
 
+	//remove the last object added to the scene 
 	if (input->wasKeyPressed(aie::INPUT_KEY_DELETE))
 	{
 		physicsScene->RemoveActor();
 	}
-	
+
 	//reverse the force of gravity when the G key is held down
 	if (input->isKeyDown(aie::INPUT_KEY_G))
 	{
 		physicsScene->SetGravity(vec2(0, 20));
 	}
-	
+
 	//restore gravity when the G key is released
 	if (input->isKeyUp(aie::INPUT_KEY_G))
 	{

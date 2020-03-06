@@ -65,16 +65,35 @@ void PhysicsScene::RemoveActor()
 	if (actors.back()->GetShapeType() != PLANE)
 	{
 		actors.pop_back();
-	}	
+	}
 }
 
-/*void PhysicsScene::RemoveAll()
+//removes physics objects that were added my the player one by one
+void PhysicsScene::RemoveActor(PhysicsObject* actor)
 {
-	if (actors.back()->GetShapeType() != PLANE)
+	cout << "list size before deleting: " << actors.size() << endl;
+
+	for (int i = 0; i < actors.size(); i++)
 	{
-		actors.pop_back();
+		if (actors[i] == actor)
+		{
+			auto it = find(actors.begin(), actors.end(), actors[i]);
+
+			if (it != actors.end())
+			{
+				cout << "Found shape to delete" << endl;
+
+				actors.erase(it);
+
+				cout << "list size after deleting: " << actors.size() << endl;
+			}
+			else
+			{
+				cout << "Shape not found" << endl;
+			}
+		}
 	}
-}*/
+}
 
 //function pointer for collisions
 typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
@@ -84,7 +103,7 @@ static fn collisionFuncArray[] =
 {
 	PhysicsScene::plane2Plane, PhysicsScene::plane2Sphere, PhysicsScene::plane2Box,
 	PhysicsScene::sphere2Plane, PhysicsScene::sphere2Sphere, PhysicsScene::sphere2Box,
-	PhysicsScene::box2Plane, PhysicsScene::box2Sphere, PhysicsScene::box2Box,	 
+	PhysicsScene::box2Plane, PhysicsScene::box2Sphere, PhysicsScene::box2Box,
 };
 
 void PhysicsScene::CheckForCollision()
@@ -92,7 +111,7 @@ void PhysicsScene::CheckForCollision()
 	int  actorCount = actors.size();
 
 	//check for all collision against all objects except this one
- 	for (int outer = 0; outer < actorCount - 1; outer++)
+	for (int outer = 0; outer < actorCount - 1; outer++)
 	{
 		for (int inner = outer + 1; inner < actorCount; inner++)
 		{
@@ -137,7 +156,7 @@ bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 
 			sphere1->SetPosition(sphere1->GetPosition() - contactForce);
 			sphere2->SetPosition(sphere2->GetPosition() + contactForce);
-			
+
 			sphere1->ResolveCollision(sphere2, 0.5f * (sphere1->GetPosition() + sphere2->GetPosition()));
 
 			return true;
@@ -194,7 +213,7 @@ bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 {
 	Box* box = dynamic_cast<Box*>(obj1);
 	Plane* plane = dynamic_cast<Plane*>(obj2);
-	
+
 	//if cast successful test for collision
 	if (box != nullptr && plane != nullptr)
 	{
@@ -219,7 +238,7 @@ bool PhysicsScene::box2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 				float distanceFromPlane = dot(pos - planeOrigin, plane->GetNormal());
 
 				//total velocity of the point
-				float velIntoPlane = dot(box->GetVelocity() + box->GetAngularVelocity() * 
+				float velIntoPlane = dot(box->GetVelocity() + box->GetAngularVelocity() *
 					(-y * box->GetLocalX() + x * box->GetLocalY()), plane->GetNormal());
 
 				//if this corner is on the opposite side from the COM and moving further in the 
